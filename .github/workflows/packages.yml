@@ -288,17 +288,6 @@ jobs:
           sudo ln -sf /data/data/com.termux /data/data/$NEW_PKG
           echo "✅ 路径重定向已建立"
 
-    - name: Setup System Redirects (路徑重定向)
-      env:
-        MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
-      run: |
-        
-          sudo mkdir -p /data/data/${{ env.MY_CUSTOM_PKG }}/files
-          sudo ln -s /data/data/com.termux/files/usr /data/data/${{ env.MY_CUSTOM_PKG }}/files/usr
-          # 建立根目录软连接
-          sudo ln -s /data/data/com.termux /data/data/${{ env.MY_CUSTOM_PKG }}
-          echo "✅ 路徑重定向已建立: /data/data/${{ env.MY_CUSTOM_PKG }} -> /data/data/com.termux"
-
     - name: Patch Build Scripts (修改構建引導)
       env:
         MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
