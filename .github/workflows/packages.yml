@@ -256,6 +256,25 @@ jobs:
       run: |
         ./scripts/free-space.sh
 
+    - name: Setup System Redirects (路徑重定向)
+      run: |
+        
+          sudo mkdir -p /data/data/${{ env.MY_CUSTOM_PKG }}/files
+          sudo ln -s /data/data/com.termux/files/usr /data/data/${{ env.MY_CUSTOM_PKG }}/files/usr
+          # 建立根目录软连接
+          sudo ln -s /data/data/com.termux /data/data/${{ env.MY_CUSTOM_PKG }}
+          echo "✅ 路徑重定向已建立: /data/data/${{ env.MY_CUSTOM_PKG }} -> /data/data/com.termux"
+
+    - name: Patch Build Scripts (修改構建引導)
+      run: |
+          
+          sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" scripts/build/termux_step_setup_variables.sh
+          
+          # 修改核心工具的路徑硬編碼（防止引導包出錯）
+          find packages/termux-exec -name "*.c" -exec sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" {} +
+          find packages/termux-tools -name "*.cpp" -exec sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" {} +
+          echo "✅ 構建腳本與核心源碼已打補丁"
+          
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
