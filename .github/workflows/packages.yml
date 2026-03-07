@@ -304,10 +304,9 @@ jobs:
           
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
-        # 显式传递环境变量执行构建
+        
         export TERMUX_APP_PACKAGE="${{ github.event.inputs.package_name }}"
         export TERMUX_REPO_PACKAGE="${{ github.event.inputs.package_name }}"
-        ./build-package.sh ${{ github.event.inputs.packages }}
        
         declare -a packages=()
         for repo_path in $(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json); do
