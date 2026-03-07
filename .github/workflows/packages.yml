@@ -20,6 +20,10 @@ on:
       packages:
         description: "A space-separated names of packages selected for rebuilding"
         required: true
+      package_name:
+        description: '要構建的包名 (例如: android.zero.studio)'
+        required: true
+        default: 'com.itsaky.androidide'
       free-space:
         description: "Free space even if not building large package (useful when building a large number of packages)"
         type: boolean
@@ -53,6 +57,7 @@ jobs:
     - name: Gather build summary
       id: build-info
       env:
+        MY_CUSTOM_PKG: "com.itsaky.androidide"
         MANUAL_INPUT_PACKAGES: ${{ github.event.inputs.packages }}
       run: |
         # We are intentionally not using .commits[0].id and .commits[-1].id as github seems to
