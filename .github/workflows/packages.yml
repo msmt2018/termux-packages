@@ -21,7 +21,7 @@ on:
         description: "A space-separated names of packages selected for rebuilding"
         required: true
       package_name:
-        description: '要構建的包名 (例如: android.zero.studio)'
+        description: 'inputs package (e.g.: android.zero.studio)'
         required: true
         default: 'com.itsaky.androidide'
       free-space:
