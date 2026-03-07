@@ -288,11 +288,6 @@ jobs:
           sudo ln -sf /data/data/com.termux /data/data/$NEW_PKG
           echo "✅ 路径重定向已建立"
 
-    - name: Build Selected Packages
-      run: |
-          
-          TERMUX_APP_PACKAGE="${{ github.event.inputs.package_name }}" ./build-package.sh $MANUAL_INPUT_PACKAGES
-
     - name: Setup System Redirects (路徑重定向)
       env:
         MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
