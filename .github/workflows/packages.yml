@@ -57,7 +57,7 @@ jobs:
     - name: Gather build summary
       id: build-info
       env:
-        MY_CUSTOM_PKG: "com.itsaky.androidide"
+        
         MANUAL_INPUT_PACKAGES: ${{ github.event.inputs.packages }}
       run: |
         # We are intentionally not using .commits[0].id and .commits[-1].id as github seems to
@@ -262,6 +262,8 @@ jobs:
         ./scripts/free-space.sh
 
     - name: Setup System Redirects (路徑重定向)
+      env:
+        MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
       run: |
         
           sudo mkdir -p /data/data/${{ env.MY_CUSTOM_PKG }}/files
@@ -271,11 +273,13 @@ jobs:
           echo "✅ 路徑重定向已建立: /data/data/${{ env.MY_CUSTOM_PKG }} -> /data/data/com.termux"
 
     - name: Patch Build Scripts (修改構建引導)
+      env:
+        MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
       run: |
           
           sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" scripts/build/termux_step_setup_variables.sh
           
-          # 修改核心工具的路徑硬編碼（防止引導包出錯）
+          # 修改核心工具的路徑硬編碼
           find packages/termux-exec -name "*.c" -exec sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" {} +
           find packages/termux-tools -name "*.cpp" -exec sed -i "s/com.termux/${{ env.MY_CUSTOM_PKG }}/g" {} +
           echo "✅ 構建腳本與核心源碼已打補丁"
