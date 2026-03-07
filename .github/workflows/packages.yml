@@ -261,6 +261,38 @@ jobs:
       run: |
         ./scripts/free-space.sh
 
+
+    - name: Inject Custom Package Identity
+      run: |
+          
+          NEW_PKG="${{ github.event.inputs.package_name }}"
+          PROPS_FILE="./scripts/properties.sh"
+          
+          echo "🔄 正在重定向包名为: $NEW_PKG"
+          
+          # 2. 修改 properties.sh 中的固定变量定义
+          # 使用正则匹配变量名并替换其后的字符串内容
+          sed -i "s/TERMUX_APP_PACKAGE=\"com.termux\"/TERMUX_APP_PACKAGE=\"$NEW_PKG\"/g" "$PROPS_FILE"
+          sed -i "s/TERMUX_REPO_PACKAGE=\"com.termux\"/TERMUX_REPO_PACKAGE=\"$NEW_PKG\"/g" "$PROPS_FILE"
+          
+          # 验证修改结果
+          echo "✅ 属性文件已更新，当前配置："
+          grep -E "TERMUX_APP_PACKAGE|TERMUX_REPO_PACKAGE" "$PROPS_FILE"
+
+    - name: Create System Path Redirect 
+      run: |
+          # 必须建立路径兼容，否则编译时下载的官方依赖包会报错找不到路径
+          NEW_PKG="${{ github.event.inputs.package_name }}"
+          sudo mkdir -p /data/data/$NEW_PKG/files
+          sudo ln -sf /data/data/com.termux/files/usr /data/data/$NEW_PKG/files/usr
+          sudo ln -sf /data/data/com.termux /data/data/$NEW_PKG
+          echo "✅ 路径重定向已建立"
+
+    - name: Build Selected Packages
+      run: |
+          
+          TERMUX_APP_PACKAGE="${{ github.event.inputs.package_name }}" ./build-package.sh $MANUAL_INPUT_PACKAGES
+
     - name: Setup System Redirects (路徑重定向)
       env:
         MY_CUSTOM_PKG:  ${{ github.event.inputs.package_name }}
@@ -285,8 +317,14 @@ jobs:
           echo "✅ 構建腳本與核心源碼已打補丁"
           
     - name: Build packages
+          
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
+        # 显式传递环境变量执行构建
+        export TERMUX_APP_PACKAGE="${{ github.event.inputs.package_name }}"
+        export TERMUX_REPO_PACKAGE="${{ github.event.inputs.package_name }}"
+        ./build-package.sh ${{ github.event.inputs.packages }}
+       
         declare -a packages=()
         for repo_path in $(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json); do
           repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
