@@ -255,7 +255,14 @@ jobs:
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
         ./scripts/free-space.sh
+        
+    - name: Global Prefix Fix
+      run: |
+        # 这一步能确保所有 build.sh 里的硬编码路径都被修正
+        grep -rl "com.termux" . | xargs sed -i 's/com.termux/android.zero.studio/g'
+        grep -rl "com.itsaky.androidide" . | xargs sed -i 's/com.itsaky.androidide/android.zero.studio/g'
 
+    
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
@@ -270,7 +277,9 @@ jobs:
         echo "packages: ${packages[*]}"
 
         if [[ "${#packages[@]}" -gt 0 ]]; then
-          ./scripts/run-docker.sh -d ./build-package.sh -I -C -a "${{ matrix.target_arch }}" "${packages[@]}"
+         ./scripts/run-docker.sh ./clean.sh
+        
+          ./scripts/run-docker.sh -d ./build-package.sh -f -C -a "${{ matrix.target_arch }}" "${packages[@]}"
         fi
 
     - name: Generate build artifacts
