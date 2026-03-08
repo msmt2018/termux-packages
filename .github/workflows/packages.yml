@@ -256,13 +256,13 @@ jobs:
       run: |
         ./scripts/free-space.sh
         
-    - name: Global Prefix Fix
+    - name: Precise Path Replacement
       run: |
-        # 这一步能确保所有 build.sh 里的硬编码路径都被修正
-        grep -rl "com.termux" . | xargs sed -i 's/com.termux/android.zero.studio/g'
-        grep -rl "com.itsaky.androidide" . | xargs sed -i 's/com.itsaky.androidide/android.zero.studio/g'
-
-    
+        # 仅替换以 /data/data/ 开头的包名路径
+        find . -type f -not -path '*/.git/*' -exec sed -i 's|/data/data/com.termux|/data/data/android.zero.studio|g' {} +
+        # 替换 build.sh 中可能存在的 TERMUX_APP_PACKAGE_NAME 变量定义
+        find . -type f -name "build.sh" -exec sed -i 's/TERMUX_APP_PACKAGE_NAME="com.termux"/TERMUX_APP_PACKAGE_NAME="android.zero.studio"/g' {} +
+  
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
