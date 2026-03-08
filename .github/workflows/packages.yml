@@ -50,13 +50,6 @@ jobs:
     - name: Set process id limit for 32-bit builds depending on aosp-libs
       run: echo 65535 | sudo tee /proc/sys/kernel/pid_max
       
-    - name: Precise Path Replacement
-      run: |
-        # 仅替换以 /data/data/ 开头的包名路径
-        find . -type f -not -path '*/.git/*' -exec sed -i 's|/data/data/com.termux|/data/data/com.itsaky.androidide|g' {} +
-        # 替换 build.sh 中可能存在的 TERMUX_APP_PACKAGE_NAME 变量定义
-        find . -type f -name "build.sh" -exec sed -i 's/TERMUX_APP_PACKAGE_NAME="com.termux"/TERMUX_APP_PACKAGE_NAME="com.itsaky.androidide"/g' {} +
-  
     - name: Gather build summary
       id: build-info
       env:
@@ -262,7 +255,13 @@ jobs:
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
         ./scripts/free-space.sh
-        
+    - name: Precise Path Replacement
+      run: |
+         # 仅替换以 /data/data/ 开头的包名路径
+         find . -type f -not -path '*/.git/*' -exec sed -i 's|/data/data/com.termux|/data/data/com.itsaky.androidide|g' {} +
+         # 替换 build.sh 中可能存在的 TERMUX_APP_PACKAGE_NAME 变量定义
+         find . -type f -name "build.sh" -exec sed -i 's/TERMUX_APP_PACKAGE_NAME="com.termux"/TERMUX_APP_PACKAGE_NAME="com.itsaky.androidide"/g' {} +
+  
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
