@@ -2158,6 +2158,9 @@ __termux_build_props__add_variables_validator_actions "TERMUX_AM_APP__NAMESPACE"
 TERMUX_AM_APP__AM_CLASS__CLASS_NAME="$TERMUX_AM_APP__NAMESPACE.Am"
 
 
+
+
+
 ###
 # Variables for the Termux package repositories.
 ###
