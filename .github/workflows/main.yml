@@ -38,13 +38,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Maximize Build Space (磁盘扩容)
-        uses: easimon/maximize-build-space@main
+      # 修复点 1：使用具体的版本号 v10
+      - name: Maximize Build Space
+        uses: easimon/maximize-build-space@v10
         with:
-          root-reserve-mb: 5120
-          swap-size-mb: 1024
+          root-reserve-mb: 8192
+          temp-reserve-mb: 2048
           remove-dotnet: 'true'
           remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
 
       - name: Build Docker Env
         run: docker build -t termux-builder .
@@ -60,40 +63,46 @@ jobs:
           -e PKG="${{ github.event.inputs.target_pkg }}" \
           termux-builder bash -c "
             set -e
-            # 1. 切换包名路径
-            sed -i \"s/com.termux/\$APP_ID/g\" ./scripts/properties.sh
+            # 1. 强制切换包名路径 (深度替换)
+            find . -type f -name 'properties.sh' -exec sed -i \"s/com.termux/\$APP_ID/g\" {} +
 
             # 2. 处理系统分支与版本映射
             if [ \"\$DISTRO\" == \"archlinux\" ]; then
                 git checkout pacman
             elif [ \"\$DISTRO\" == \"ubuntu\" ]; then
-                # 根据选择映射 Ubuntu 版本代号
-                [ \"\$U_VER\" == \"24.04\" ] && CODENAME=\"noble\" || CODENAME=\"jammy\"
-                echo \"配置 Ubuntu \$U_VER (\$CODENAME) Rootfs 编译目标...\"
-                # 注入 Ubuntu 源及版本到 bootstrap 脚本
+                # 修复点 2：更精准的 Ubuntu 代号替换逻辑
+                CODENAME=\"noble\"
+                [ \"\$U_VER\" == \"22.04\" ] && CODENAME=\"jammy\"
+                echo \"配置 Ubuntu \$U_VER (\$CODENAME) 编译环境...\"
+                
+                # 寻找脚本中定义发行版的地方并替换
                 sed -i \"s/debian/\$CODENAME/g\" ./scripts/build-bootstraps.sh
             fi
 
             # 3. 执行任务
             if [ \"\$MODE\" == \"bootstrap\" ]; then
                 ./scripts/build-bootstraps.sh --architecture aarch64
-                cp *.zip /home/builder/build_out/ 2>/dev/null || true
+                # 寻找生成的 zip 产物
+                find . -maxdepth 1 -name '*.zip' -exec cp {} /home/builder/build_out/ \;
             else
                 ./build-package.sh -a aarch64 \$PKG
-                cp output/*.deb /home/builder/build_out/ 2>/dev/null || true
-                cp output/*.pkg.tar.zst /home/builder/build_out/ 2>/dev/null || true
+                # 寻找生成的 deb/zst 产物
+                find output -name '*.deb' -exec cp {} /home/builder/build_out/ \;
+                find output -name '*.zst' -exec cp {} /home/builder/build_out/ \;
             fi
           "
 
       - name: Release Artifacts (Direct Download Link)
         uses: softprops/action-gh-release@v2
+        if: success()
         with:
           tag_name: ${{ github.event.inputs.distro }}-${{ github.run_id }}
           files: output/*
-          name: "Build: ${{ github.event.inputs.app_id }} [${{ github.event.inputs.distro }}]"
+          name: "Termux-Build-${{ github.event.inputs.distro }}-${{ github.event.inputs.ubuntu_version }}"
           body: |
-            - **App ID**: ${{ github.event.inputs.app_id }}
-            - **Distro**: ${{ github.event.inputs.distro }} ${{ github.event.inputs.ubuntu_version }}
-            - **Mode**: ${{ github.event.inputs.build_mode }}
+            ### 编译成功！
+            - **自定义包名**: `${{ github.event.inputs.app_id }}`
+            - **基础发行版**: `${{ github.event.inputs.distro }}`
+            - **系统版本**: `${{ github.event.inputs.ubuntu_version }}`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
