@@ -1,0 +1,104 @@
+name: Termux Universal Builder
+on:
+  workflow_dispatch:
+    inputs:
+      build_mode:
+        description: '编译模式'
+        required: true
+        default: 'bootstrap'
+        type: choice
+        options:
+          - bootstrap
+          - package
+      distro:
+        description: '核心系统基础 (Arch需切换分支)'
+        required: true
+        default: 'debian'
+        type: choice
+        options:
+          - debian
+          - archlinux
+          - alpine
+      app_id:
+        description: 'Android Data 包名 (如 com.itsaky.androidide)'
+        required: true
+        default: 'com.itsaky.androidide'
+      target_pkg:
+        description: '要编译的软件包名 (仅在 package 模式有效)'
+        required: false
+        default: 'bash'
+      kernel_ver:
+        description: '内核头文件版本 (如 6.1.0)'
+        required: true
+        default: '6.1.0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Compilation Environment
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: termux-custom-builder:latest
+          outputs: type=docker,dest=/tmp/image.tar
+
+      - name: Load Docker Image
+        run: docker load -i /tmp/image.tar
+
+      - name: Execute Compilation Task
+        run: |
+          mkdir -p output
+          docker run --rm -v ${{ github.workspace }}/output:/home/builder/build_out \
+          -e MODE="${{ github.event.inputs.build_mode }}" \
+          -e DISTRO="${{ github.event.inputs.distro }}" \
+          -e APP_ID="${{ github.event.inputs.app_id }}" \
+          -e PKG="${{ github.event.inputs.target_pkg }}" \
+          -e KVER="${{ github.event.inputs.kernel_ver }}" \
+          termux-custom-builder:latest bash -c "
+            set -e
+            # 1. 处理系统分支 (针对 Arch)
+            if [ \"\$DISTRO\" == \"archlinux\" ]; then
+              git checkout pacman
+            fi
+
+            # 2. 修改全局 Data 路径
+            sed -i \"s/com.termux/\$APP_ID/g\" ./scripts/properties.sh
+
+            # 3. 注入特定内核头文件
+            wget https://www.kernel.org\${KVER%%.*}.x/linux-\$KVER.tar.xz
+            tar -xf linux-\$KVER.tar.xz && cd linux-\$KVER
+            make ARCH=arm64 INSTALL_HDR_PATH=../kernel-headers headers_install
+            cd .. && cp -r kernel-headers/include/* ./packages/linux-libs-static/include/
+
+            # 4. 执行编译
+            if [ \"\$MODE\" == \"bootstrap\" ]; then
+              ./scripts/build-bootstraps.sh --architecture aarch64
+              cp *.zip /home/builder/build_out/
+            else
+              ./build-package.sh -a aarch64 \$PKG
+              cp output/*.deb /home/builder/build_out/ 2>/dev/null || true
+              cp output/*.pkg.tar.zst /home/builder/build_out/ 2>/dev/null || true
+            fi
+          "
+
+      - name: Create Release and Upload (Direct Link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.distro }}-${{ github.run_id }}
+          files: |
+            output/*.zip
+            output/*.deb
+            output/*.zst
+          name: "Build: ${{ github.event.inputs.app_id }} (${{ github.event.inputs.distro }})"
+          body: "内核版本: ${{ github.event.inputs.kernel_ver }} | 模式: ${{ github.event.inputs.build_mode }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
