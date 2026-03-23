@@ -6,5 +6,14 @@ grep -rl "com.termux" . | xargs sed -i 's|com.termux|com.itsaky.androidide|g'
 # 在所有 cp 命令執行前插入 mkdir -p 確保路徑存在
 sed -i 's|cp |mkdir -p /data/data/com.itsaky.androidide/cgct/lib /data/data/com.itsaky.androidide/cgct/bin \&\& cp |g' scripts/setup-cgct.sh
 
+# 找到該腳本中所有嘗試寫入自定義包名路徑的地方，並在其前面加上 mkdir -p
+sed -i '/data\/data\/com.itsaky.androidide/i \ \ \ \ \ \ \ \ mkdir -p "$(dirname "$0")" # 確保目錄存在' scripts/generate-bootstraps.sh
+或者：# 修改前
+echo "..." > "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/..."
+# 修改後（在前面加一行）
+mkdir -p "$(dirname "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/01-termux-bootstrap-second-stage-fallback.sh")"
+echo "..." > "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/01-termux-bootstrap-second-stage-fallback.sh"
+
+
 
 https://github.com.itsaky.androidide
