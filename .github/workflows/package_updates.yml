@@ -104,8 +104,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.TERMUXBOT2_TOKEN }}
-      - name: Set process id limit for 32-bit builds depending on aosp-libs
-        run: echo 65535 | sudo tee /proc/sys/kernel/pid_max
       - name: Enable zram
         uses: ./.github/actions/zram
         with:
@@ -115,7 +113,7 @@ jobs:
           device_name: /dev/zram0
       - name: Load Docker image
         run: |
-          ./scripts/run-docker.sh echo ""
+          ./scripts/run-docker.sh true
       - name: Free additional disk space
         run: ./scripts/free-space.sh
       - name: Install needed dependencies for package updates
