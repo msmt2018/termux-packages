@@ -265,10 +265,6 @@ jobs:
         sudo apt-get install -y python3
         sudo apt-get install librhash-dev
         export TERMUX_APP_PACKAGE="com.itsaky.androidide"
-        ./scripts/run-docker.sh ./build-package.sh cmake
-        /build-package.sh librhash
-        ./build-package.sh libandroid-support
-        ./build-package.sh libc++
 
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
