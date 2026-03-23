@@ -14,6 +14,10 @@ echo "..." > "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/..."
 mkdir -p "$(dirname "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/01-termux-bootstrap-second-stage-fallback.sh")"
 echo "..." > "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/01-termux-bootstrap-second-stage-fallback.sh"
 
+sed -i '268i \ \ \ \ \ \ \ \ mkdir -p "$(dirname "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/etc/profile.d/01-termux-bootstrap-second-stage-fallback.sh")"' scripts/generate-bootstraps.sh
+
+# 確保 CGCT_DIR 指向正確的新包名路徑
+sed -i 's|CGCT_DIR="/data/data/com.termux/cgct"|CGCT_DIR="/data/data/com.itsaky.androidide/cgct"|g' scripts/setup-cgct.sh
 
 
 https://github.com.itsaky.androidide

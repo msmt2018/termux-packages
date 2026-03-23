@@ -2,13 +2,17 @@
 # setup CGCT - Cross Gnu Compilers for Termux
 # compile glibc-based binaries for Termux
 
+# 加载属性定义
 . $(dirname "$(realpath "$0")")/properties.sh
 . $(dirname "$(realpath "$0")")/build/termux_download.sh
 
 set -e -u
 
+# 核心变量显式对齐自定义包名
 ARCH="x86_64"
-REPO_URL="https://service.termux-pacman.dev/cgct/${ARCH}"
+REPO_URL="https://service.termux-pacman.dev{ARCH}"
+# 强制覆盖为你的自定义路径
+CGCT_DIR="/data/data/com.itsaky.androidide/cgct"
 
 if [ "$ARCH" != "$(uname -m)" ]; then
 	echo "Error: the requested CGCT is not supported on your architecture"
@@ -25,20 +29,23 @@ declare -A CGCT=(
 : "${TERMUX_PKG_TMPDIR:="/tmp"}"
 TMPDIR_CGCT="${TERMUX_PKG_TMPDIR}/cgct"
 
-# Creating a directory for CGCT in tmp
+# 创建临时工作目录
 if [ ! -d "$TMPDIR_CGCT" ]; then
 	mkdir -p "$TMPDIR_CGCT"
 fi
 
-# Removing the old CGCT
+# 清理旧的 CGCT
 if [ -d "$CGCT_DIR" ]; then
 	echo "Removing the old CGCT..."
 	rm -fr "$CGCT_DIR"
 fi
 
-# Installing CGCT
+# 确保目标基础目录存在
+mkdir -p "/data/data/com.itsaky.androidide"
+
+# 开始安装 CGCT 组件
 echo "Installing CGCT..."
-curl "${REPO_URL}/cgct.json" -o "${TMPDIR_CGCT}/cgct.json"
+curl -L "${REPO_URL}/cgct.json" -o "${TMPDIR_CGCT}/cgct.json"
 for pkgname in ${!CGCT[@]}; do
 	SHA256SUM=$(jq -r '."'$pkgname'"."SHA256SUM"' "${TMPDIR_CGCT}/cgct.json")
 	if [ "$SHA256SUM" = "null" ]; then
@@ -57,24 +64,36 @@ for pkgname in ${!CGCT[@]}; do
 			"${TMPDIR_CGCT}/${filename}" \
 			"${SHA256SUM}"
 	fi
-	tar xJf "${TMPDIR_CGCT}/${filename}" -C / data
+    
+    # 核心修复：解压时通过 transform 将 com.termux 替换为 com.itsaky.androidide
+    # 这样文件才会落入正确的 CGCT_DIR 路径
+	tar xJf "${TMPDIR_CGCT}/${filename}" --transform 's|com.termux|com.itsaky.androidide|' -C / data
 done
 
-# Installing gcc-libs for CGCT
+# 安装 gcc-libs (来自 Arch Linux)
 if [ ! -f "${CGCT_DIR}/lib/libgcc_s.so" ]; then
 	pkgname="gcc-libs"
 	echo "Installing ${pkgname} for CGCT..."
-	#curl -L "https://archlinux.org/packages/core/${ARCH}/${pkgname}/download/" -o "${TMPDIR_CGCT}/${pkgname}.pkg.zstd"
-	termux_download "https://archive.archlinux.org/packages/g/gcc-libs/gcc-libs-15.1.1+r7+gf36ec88aa85a-1-x86_64.pkg.tar.zst" \
+	termux_download "https://archive.archlinux.org" \
 		"${TMPDIR_CGCT}/${pkgname}.pkg.zstd" \
 		"6eedd2e4afc53e377b5f1772b5d413de3647197e36ce5dc4a409f993668aa5ed"
-	tar --use-compress-program=unzstd -xf "${TMPDIR_CGCT}/${pkgname}.pkg.zstd" -C "${TMPDIR_CGCT}" usr/lib
-	mkdir -p /data/data/com.itsaky.androidide/cgct/lib /data/data/com.itsaky.androidide/cgct/bin && cp -r "${TMPDIR_CGCT}/usr/lib/"* "${CGCT_DIR}/lib"
+	
+    tar --use-compress-program=unzstd -xf "${TMPDIR_CGCT}/${pkgname}.pkg.zstd" -C "${TMPDIR_CGCT}" usr/lib
+	
+    # 确保目标 lib 和 bin 目录存在
+    mkdir -p "${CGCT_DIR}/lib" "${CGCT_DIR}/bin"
+    cp -r "${TMPDIR_CGCT}/usr/lib/"* "${CGCT_DIR}/lib"
 fi
 
-# Setting up CGCT
-if [ ! -f "${CGCT_DIR}"/bin/setup-cgct ]; then
-	echo "Error: setup-cgct command not found in CGCT directory"
+# 检查并运行 setup-cgct
+# 此时文件应该已经在 /data/data/com.itsaky.androidide/cgct/bin/ 下了
+if [ ! -f "${CGCT_DIR}/bin/setup-cgct" ]; then
+	echo "Error: setup-cgct command not found at ${CGCT_DIR}/bin/setup-cgct"
+    # 打印目录内容辅助排查
+    echo "Directory listing for ${CGCT_DIR}:"
+    ls -R "${CGCT_DIR}" | head -n 20
 	exit 1
 fi
-"${CGCT_DIR}"/bin/setup-cgct "/usr/lib/x86_64-linux-gnu"
+
+echo "Running setup-cgct..."
+"${CGCT_DIR}/bin/setup-cgct" "/usr/lib/x86_64-linux-gnu"
