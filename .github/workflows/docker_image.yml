@@ -3,7 +3,7 @@ name: Docker image
 on:
   push:
     branches:
-    - master
+    - com.itsaky.androidide
     paths:
     - 'scripts/Dockerfile'
     - 'scripts/properties.sh'
@@ -61,8 +61,11 @@ jobs:
     - name: Build (CGCT)
       if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
       run: |
-        docker build --tag termux/package-builder-cgct:latest --file scripts/Dockerfile.cgct scripts/
+        docker build --network host --tag termux/package-builder-cgct:latest --file scripts/Dockerfile.cgct scripts/
         docker tag termux/package-builder-cgct:latest ghcr.io/termux/package-builder-cgct:latest
+
+        # docker build --tag termux/package-builder-cgct:latest --file scripts/Dockerfile.cgct scripts/
+        # docker tag termux/package-builder-cgct:latest ghcr.io/termux/package-builder-cgct:latest
     - name: Login to GHCR
       if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'msmt2018/termux-packages' && steps.skip-build.outputs.skip-build != 'true'
 
