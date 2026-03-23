@@ -53,6 +53,7 @@ jobs:
       env:
         MANUAL_INPUT_PACKAGES: ${{ github.event.inputs.packages }}
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         # We are intentionally not using .commits[0].id and .commits[-1].id as github seems to
         # only send 20 commits in the payload for github action runs instead of the 2048 documented
         # limit. Perhaps 2048 is the limit just for webhooks, where they haven't documented
@@ -217,6 +218,7 @@ jobs:
 
     - name: Lint packages
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         declare -a package_recipes=()
         for repo_path in $(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json); do
           repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
@@ -241,17 +243,20 @@ jobs:
     - name: Build docker image
       if: ${{ steps.build-info.outputs.needs-docker-build == 'true' }}
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         docker build -t ghcr.io/termux/package-builder:latest scripts/
         docker buildx prune -af
 
     - name: Load Docker image
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         ./scripts/run-docker.sh true
 
     - name: Free additional disk space (if needed)
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         ./scripts/free-space.sh
         
     - name: Install Dependencies
@@ -259,10 +264,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y python3
         sudo apt-get install librhash-dev
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
+        ./scripts/run-docker.sh ./build-package.sh cmake
+        /build-package.sh librhash
         
     - name: Build packages
       if: ${{ steps.build-info.outputs.skip-building != 'true' }}
       run: |
+        export TERMUX_APP_PACKAGE="com.itsaky.androidide"
         declare -a packages=()
         for repo_path in $(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json); do
           repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
