@@ -3,5 +3,8 @@ grep -rl "termux/termux-packages" . | xargs sed -i 's|termux/termux-packages|msm
 
 grep -rl "com.termux" . | xargs sed -i 's|com.termux|com.itsaky.androidide|g'
 
+# 在所有 cp 命令執行前插入 mkdir -p 確保路徑存在
+sed -i 's|cp |mkdir -p /data/data/com.itsaky.androidide/cgct/lib /data/data/com.itsaky.androidide/cgct/bin \&\& cp |g' scripts/setup-cgct.sh
+
 
 https://github.com.itsaky.androidide

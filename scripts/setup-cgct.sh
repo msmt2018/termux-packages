@@ -69,7 +69,7 @@ if [ ! -f "${CGCT_DIR}/lib/libgcc_s.so" ]; then
 		"${TMPDIR_CGCT}/${pkgname}.pkg.zstd" \
 		"6eedd2e4afc53e377b5f1772b5d413de3647197e36ce5dc4a409f993668aa5ed"
 	tar --use-compress-program=unzstd -xf "${TMPDIR_CGCT}/${pkgname}.pkg.zstd" -C "${TMPDIR_CGCT}" usr/lib
-	cp -r "${TMPDIR_CGCT}/usr/lib/"* "${CGCT_DIR}/lib"
+	mkdir -p /data/data/com.itsaky.androidide/cgct/lib /data/data/com.itsaky.androidide/cgct/bin && cp -r "${TMPDIR_CGCT}/usr/lib/"* "${CGCT_DIR}/lib"
 fi
 
 # Setting up CGCT
