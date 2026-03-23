@@ -1,0 +1,7 @@
+grep -rl "termux/termux-packages" . | xargs sed -i 's|termux/termux-packages|msmt2018/termux-packages|g'
+
+
+grep -rl "com.termux" . | xargs sed -i 's|com.termux|com.itsaky.androidide|g'
+
+
+https://github.com.itsaky.androidide
