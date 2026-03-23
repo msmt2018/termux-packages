@@ -31,6 +31,6 @@ termux_step_pre_configure() {
 	export LDFLAGS+=" -landroid-spawn"
 	# successful application-side workaround of
 	# https://github.com/kcat/openal-soft/issues/1111
-	# https://github.com/termux/termux-packages/issues/23148
+	# https://github.com/msmt2018/termux-packages/issues/23148
 	export LDFLAGS+=" -Wl,--no-as-needed,-lOpenSLES,--as-needed"
 }

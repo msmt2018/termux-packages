@@ -14,7 +14,7 @@
 # until and unless the Alpine Linux discussion resolves it otherwise.
 # I believe this to be a good faith, best effort attempt to resolve the licensing of this script.
 #
-# [^1]: https://github.com/termux/termux-packages/blob/master/LICENSE.md#license-for-package-patches
+# [^1]: https://github.com/msmt2018/termux-packages/blob/master/LICENSE.md#license-for-package-patches
 # [^2]: https://github.com/tree-sitter/tree-sitter/blob/master/LICENSE
 
 set -eu

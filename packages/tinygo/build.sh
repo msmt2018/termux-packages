@@ -154,7 +154,7 @@ termux_step_pre_configure() {
 	# this is a workaround for build-all.sh issue
 	TERMUX_PKG_DEPENDS+=", tinygo-common"
 
-	# https://github.com/termux/termux-packages/issues/16358
+	# https://github.com/msmt2018/termux-packages/issues/16358
 	if [[ "${TERMUX_ON_DEVICE_BUILD}" == "true" ]]; then
 		echo "WARN: ld.lld wrapper is not working for on-device builds. Skipping."
 		return

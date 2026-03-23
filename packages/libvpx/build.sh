@@ -54,7 +54,7 @@ termux_step_configure() {
 	# https://bugs.chromium.org/p/webm/issues/detail?id=800
 	# "The issue is that on android we soft enable realtime only.
 	#  [..] You can enable non-realtime by setting --disable-realtime-only"
-	# Discovered in https://github.com/termux/termux-packages/issues/554
+	# Discovered in https://github.com/msmt2018/termux-packages/issues/554
 	#CROSS=${TERMUX_HOST_PLATFORM}- CC=clang CXX=clang++ $TERMUX_PKG_SRCDIR/configure \
 	"$TERMUX_PKG_SRCDIR/configure" \
 		"${_CONFIGURE_TARGET[@]}" \

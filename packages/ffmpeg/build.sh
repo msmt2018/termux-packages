@@ -150,8 +150,8 @@ termux_step_post_massage() {
 }
 
 termux_step_create_debscripts() {
-	# See: https://github.com/termux/termux-packages/issues/23189#issuecomment-2663464359
-	# See also: https://github.com/termux/termux-packages/wiki/Termux-execution-environment#dynamic-library-linking-errors
+	# See: https://github.com/msmt2018/termux-packages/issues/23189#issuecomment-2663464359
+	# See also: https://github.com/msmt2018/termux-packages/wiki/Termux-execution-environment#dynamic-library-linking-errors
 	sed -e "s|@TERMUX_PREFIX@|$TERMUX_PREFIX|g" \
 		"$TERMUX_PKG_BUILDER_DIR/postinst.sh.in" > ./postinst
 	chmod +x ./postinst

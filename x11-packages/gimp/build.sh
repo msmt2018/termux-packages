@@ -23,7 +23,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -Dgi-docgen=disabled
 -Djavascript=disabled
 -Dlua=false
--Dbug-report-url=https://github.com/termux/termux-packages/issues/new?template=01-bug-report.yml
+-Dbug-report-url=https://github.com/msmt2018/termux-packages/issues/new?template=01-bug-report.yml
 "
 TERMUX_PKG_RM_AFTER_INSTALL="lib/locale"
 

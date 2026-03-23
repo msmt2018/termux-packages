@@ -8,7 +8,7 @@ horizontal screen space
 
 Requested by Ralf Werner
 
-Discussion: https://github.com/termux/termux-packages/pull/23911
+Discussion: https://github.com/msmt2018/termux-packages/pull/23911
 
 --- a/comm/mail/components/compose/content/MsgComposeCommands.js
 +++ b/comm/mail/components/compose/content/MsgComposeCommands.js

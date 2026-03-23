@@ -119,12 +119,12 @@ termux_step_pre_configure() {
 	ln -vfst "${RUST_LIBDIR}" \
 		"${TERMUX_PREFIX}/lib/libLLVM-${TERMUX_LLVM_MAJOR_VERSION}.so"
 
-	# https://github.com/termux/termux-packages/issues/18379
+	# https://github.com/msmt2018/termux-packages/issues/18379
 	# NDK r26 multiple ld.lld: error: undefined symbol: __cxa_*
 	ln -vfst "${RUST_LIBDIR}" "${TERMUX_PREFIX}"/lib/libc++_shared.so
 
-	# https://github.com/termux/termux-packages/issues/11640
-	# https://github.com/termux/termux-packages/issues/11658
+	# https://github.com/msmt2018/termux-packages/issues/11640
+	# https://github.com/msmt2018/termux-packages/issues/11658
 	# The build system somehow tries to link binaries against a wrong libc,
 	# leading to build failures for arm and runtime errors for others.
 	# The following command is equivalent to
@@ -230,7 +230,7 @@ termux_step_make_install() {
 	[[ "${TERMUX_ON_DEVICE_BUILD}" == "true" ]] && job="dist"
 
 	# rust 1.87.0
-	# https://github.com/termux/termux-packages/issues/25360
+	# https://github.com/msmt2018/termux-packages/issues/25360
 	# build to stage 2 to fix rust-analyzer error
 	"${TERMUX_PKG_SRCDIR}/x.py" "${job}" -j "${TERMUX_PKG_MAKE_PROCESSES}" --stage 2
 

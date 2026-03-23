@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/issues/18823
+https://github.com/msmt2018/termux-packages/issues/18823
 
 --- a/src/c11/threads.h
 +++ b/src/c11/threads.h

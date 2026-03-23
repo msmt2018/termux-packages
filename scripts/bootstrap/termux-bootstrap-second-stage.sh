@@ -67,7 +67,7 @@ the lock file manually and run `@TERMUX_BOOTSTRAP__BOOTSTRAP_SECOND_STAGE_ENTRY_
 again.
 
 **See also:**
-- https://github.com/termux/termux-packages/wiki/For-maintainers#bootstraps
+- https://github.com/msmt2018/termux-packages/wiki/For-maintainers#bootstraps
 HELP_EOF
 
 }
@@ -339,7 +339,7 @@ run_package_postinst_maintainer_scripts() {
 					# which may cause problems for packages which try
 					# to use Android rootfs paths instead of Termux
 					# rootfs paths.
-					# - https://github.com/termux/termux-packages/blob/953b9f2aac0dc94f3b99b2df6af898e0a95d5460/packages/pacman/util.c.patch
+					# - https://github.com/msmt2018/termux-packages/blob/953b9f2aac0dc94f3b99b2df6af898e0a95d5460/packages/pacman/util.c.patch
 					cd "/" || exit $?
 
 					# Source the package `install` file and execute
@@ -437,7 +437,7 @@ warn_if_process_killed() {
 	if [[ "$return_value" == "137" ]]; then
 		log_error "The '$command' command was apparently killed with SIGKILL (signal 9). \
 This may have been due to the security policies of the Android OS installed on your device.
-Check https://github.com/termux/termux-app/issues/4219 for more info."
+Check https://github.com.itsaky.androidide/termux-app/issues/4219 for more info."
 		return 0
 	fi
 

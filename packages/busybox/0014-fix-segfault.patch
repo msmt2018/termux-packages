@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/issues/21522
+https://github.com/msmt2018/termux-packages/issues/21522
 
 --- a/include/libbb.h
 +++ b/include/libbb.h

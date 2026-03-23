@@ -17,7 +17,7 @@ TERMUX_PKG_REPLACES="python-dev"
 # Let "python3" will be alias to this package.
 TERMUX_PKG_PROVIDES="python3"
 
-# https://github.com/termux/termux-packages/issues/15908
+# https://github.com/msmt2018/termux-packages/issues/15908
 TERMUX_PKG_MAKE_PROCESSES=1
 
 _MAJOR_VERSION="${TERMUX_PKG_VERSION%.*}"
@@ -35,7 +35,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_linkat=no"
 # Do not assume getaddrinfo is buggy when cross compiling:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_buggy_getaddrinfo=no"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" --enable-loadable-sqlite-extensions"
-# Fix https://github.com/termux/termux-packages/issues/2236:
+# Fix https://github.com/msmt2018/termux-packages/issues/2236:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_little_endian_double=yes"
 # Force enable posix semaphores.
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_posix_semaphores_enabled=yes"

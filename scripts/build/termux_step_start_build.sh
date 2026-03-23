@@ -130,7 +130,7 @@ termux_step_start_build() {
 			local TERMUX_ELF_CLEANER_VERSION
 			TERMUX_ELF_CLEANER_VERSION=$(bash -c ". $TERMUX_SCRIPTDIR/packages/termux-elf-cleaner/build.sh; echo \$TERMUX_PKG_VERSION")
 			termux_download \
-				"https://github.com/termux/termux-elf-cleaner/releases/download/v${TERMUX_ELF_CLEANER_VERSION}/termux-elf-cleaner" \
+				"https://github.com.itsaky.androidide/termux-elf-cleaner/releases/download/v${TERMUX_ELF_CLEANER_VERSION}/termux-elf-cleaner" \
 				"$TERMUX_ELF_CLEANER" \
 				59645fb25b84d11f108436e83d9df5e874ba4eb76ab62948869a23a3ee692fa7
 			chmod u+x "$TERMUX_ELF_CLEANER"

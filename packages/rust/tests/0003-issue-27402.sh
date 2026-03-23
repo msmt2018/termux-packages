@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://github.com/rust-lang/rust/issues/147590
-# https://github.com/termux/termux-packages/issues/27402
+# https://github.com/msmt2018/termux-packages/issues/27402
 #
 # Expected result:-
 # Do not error

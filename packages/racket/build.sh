@@ -35,7 +35,7 @@ termux_step_pre_configure() {
 	export TERMUX_PKG_SRCDIR="$TERMUX_PKG_SRCDIR/src"
 }
 
-# See: https://github.com/termux/termux-packages/issues/25761
+# See: https://github.com/msmt2018/termux-packages/issues/25761
 termux_step_configure() {
 	"$TERMUX_PKG_SRCDIR"/configure \
 		--prefix="$TERMUX_PREFIX" \

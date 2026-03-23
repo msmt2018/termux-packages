@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/issues/25061
+https://github.com/msmt2018/termux-packages/issues/25061
 
 --- a/src/cmdline.cc
 +++ b/src/cmdline.cc

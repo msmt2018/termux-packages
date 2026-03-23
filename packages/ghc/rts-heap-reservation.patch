@@ -15,7 +15,7 @@ until an address above the 8GB mark is obtained,
 after which each recursive call unmaps its undesired address before
 returning the desired address, in order from last mapped to first mapped.
 
-First discussed here: https://github.com/termux/termux-packages/pull/22991
+First discussed here: https://github.com/msmt2018/termux-packages/pull/22991
 ---
  rts/posix/OSMem.c | 88 +++++++++++++++++++++++++----------------------
  1 file changed, 46 insertions(+), 42 deletions(-)

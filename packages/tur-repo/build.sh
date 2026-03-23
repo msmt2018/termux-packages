@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux-user-repository/tur
+TERMUX_PKG_HOMEPAGE=https://github.com.itsaky.androidide-user-repository/tur
 TERMUX_PKG_DESCRIPTION="A single and trusted place for all unofficial/less popular termux packages"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"

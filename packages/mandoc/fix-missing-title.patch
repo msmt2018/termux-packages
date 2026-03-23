@@ -1,7 +1,7 @@
 This patch was created by Ingo Schwarze <schwarze@usta.de>
 and taken from https://marc.info/?l=mandoc-discuss&m=175200050325256&w=2
 
-Fixes https://github.com/termux/termux-packages/issues/25261
+Fixes https://github.com/msmt2018/termux-packages/issues/25261
 
 --- a/man_validate.c	1 Jul 2025 20:06:13 -0000	1.130
 +++ b/man_validate.c	8 Jul 2025 18:34:33 -0000

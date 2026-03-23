@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/termux-packages
+TERMUX_PKG_HOMEPAGE=https://github.com/msmt2018/termux-packages
 TERMUX_PKG_DESCRIPTION="A metapackage that provides vulkan loader library"
 TERMUX_PKG_LICENSE="Public Domain"
 TERMUX_PKG_MAINTAINER="@termux"

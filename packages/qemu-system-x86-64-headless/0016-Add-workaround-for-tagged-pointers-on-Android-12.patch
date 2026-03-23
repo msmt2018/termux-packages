@@ -4,7 +4,7 @@ Date: Mon, 17 Mar 2025 15:06:05 -0400
 Subject: [PATCH] Add workaround for tagged pointers on Android 12
 
 Based on the corresponding OpenJDK patch at:
-https://github.com/termux/termux-packages/blob/3ca825e40d7cf2f456ac5d5fd7b1a1693470081d/packages/openjdk-21/0022-Add-workaround-for-tagged-pointers-on-Android-12.patch
+https://github.com/msmt2018/termux-packages/blob/3ca825e40d7cf2f456ac5d5fd7b1a1693470081d/packages/openjdk-21/0022-Add-workaround-for-tagged-pointers-on-Android-12.patch
 
 Co-authored-by: Tee KOBAYASHI <xtkoba@gmail.com>
 Co-authored-by: dev-bz <32380878+dev-bz@users.noreply.github.com>

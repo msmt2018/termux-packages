@@ -45,7 +45,7 @@ termux_pkg_auto_update() {
 	local latest_commit_date=$(echo "${latest_commit_date_tz}" | sed -e 's|\(.*\)T\(.*\)Z|\1|' -e 's|\-||g')
 	local latest_commit_time=$(echo "${latest_commit_date_tz}" | sed -e 's|\(.*\)T\(.*\)Z|\2|' -e 's|\:||g')
 
-	# https://github.com/termux/termux-packages/issues/11827
+	# https://github.com/msmt2018/termux-packages/issues/11827
 	local latest_version="0.0.${latest_commit_date}.${latest_commit_time}"
 
 	local current_date_epoch=$(date "+%s")
@@ -186,4 +186,4 @@ termux_step_make_install() {
 # https://github.com/kpet/clvk/issues/375
 # https://github.com/kpet/clvk/issues/499
 # https://github.com/kpet/clvk/issues/544
-# https://github.com/termux/termux-packages/issues/11827
+# https://github.com/msmt2018/termux-packages/issues/11827

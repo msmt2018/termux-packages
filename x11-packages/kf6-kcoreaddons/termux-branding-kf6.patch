@@ -7,7 +7,7 @@
 +        homeUrl = QStringLiteral("https://termux.dev/");
 +        documentationUrl = QStringLiteral("https://termux.dev/en/docs/index.html");
 +        supportUrl = QStringLiteral("https://wiki.termux.dev/wiki/Community");
-+        bugReportUrl = QStringLiteral("https://github.com/termux/termux-packages/issues");
++        bugReportUrl = QStringLiteral("https://github.com/msmt2018/termux-packages/issues");
 +        privacyPolicyUrl = QStringLiteral("https://termux.dev/en/privacy-policy");
          // Default values for non-optional fields set above ^.
  

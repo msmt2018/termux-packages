@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/x11-packages
+TERMUX_PKG_HOMEPAGE=https://github.com.itsaky.androidide/x11-packages
 TERMUX_PKG_DESCRIPTION="Meta package for KDE Gear applications (incomplete!)"
 TERMUX_PKG_LICENSE="Public Domain"
 TERMUX_PKG_MAINTAINER="@termux"

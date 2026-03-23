@@ -1,5 +1,5 @@
 # Known issues:
-#   https://github.com/termux/termux-packages/issues/7191
+#   https://github.com/msmt2018/termux-packages/issues/7191
 TERMUX_PKG_HOMEPAGE=https://github.com/vlang/v
 TERMUX_PKG_DESCRIPTION="Simple, fast, safe, compiled language for developing maintainable software"
 TERMUX_PKG_LICENSE="MIT"

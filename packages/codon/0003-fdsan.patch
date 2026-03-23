@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/issues/25322
+https://github.com/msmt2018/termux-packages/issues/25322
 
 --- a/codon/cir/llvm/llvisitor.cpp
 +++ b/codon/cir/llvm/llvisitor.cpp

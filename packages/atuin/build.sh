@@ -16,7 +16,7 @@ termux_step_pre_configure() {
 	TERMUX_PKG_SRCDIR+="/crates/atuin"
 	TERMUX_PKG_BUILDDIR="$TERMUX_PKG_SRCDIR"
 
-	# https://github.com/termux/termux-packages/issues/8029
+	# https://github.com/msmt2018/termux-packages/issues/8029
 	if [[ "${TERMUX_ARCH}" == "x86_64" ]]; then
 		local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
 		export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"

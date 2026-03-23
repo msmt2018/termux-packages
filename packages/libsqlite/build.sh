@@ -37,7 +37,7 @@ termux_step_pre_configure() {
 	export TCLLIBDIR="$TERMUX_PREFIX/lib"
 }
 
-# See: https://github.com/termux/termux-packages/issues/23268#issuecomment-2685308408
+# See: https://github.com/msmt2018/termux-packages/issues/23268#issuecomment-2685308408
 termux_step_configure() {
 	"$TERMUX_PKG_SRCDIR"/configure \
 		--prefix="$TERMUX_PREFIX" \

@@ -40,7 +40,7 @@ if [[ "$TERMUX_DEBUG_BUILD" == "true" ]]; then
 fi
 
 # Avoid misdetection of sigaltstack with strict C99:
-# https://github.com/termux/termux-packages/issues/15852
+# https://github.com/msmt2018/termux-packages/issues/15852
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" emacs_cv_alternate_stack=yes"
 # Ensure use of system malloc:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" emacs_cv_sanitize_address=yes"
@@ -54,7 +54,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" gl_cv_func_dup2_works=no"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_setrlimit=no"
 if [[ "$TERMUX_ARCH_BITS" == "32" ]]; then
 	# setjmp does not work properly on 32bit android:
-	# https://github.com/termux/termux-packages/issues/2599
+	# https://github.com/msmt2018/termux-packages/issues/2599
 	TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" emacs_cv_func__setjmp=no"
 	TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" emacs_cv_func_sigsetjmp=no"
 fi

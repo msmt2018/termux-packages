@@ -9,7 +9,7 @@ TERMUX_PKG_SHA256=0b25b2b5fab80ea8b43fdaa7451f50065571e0bfda2524ca42bde8b98fe4d2
 TERMUX_PKG_AUTO_UPDATE=false
 # Note that we do not use a shared libuv to avoid an issue with the Android
 # linker, which does not use symbols of linked shared libraries when resolving
-# symbols on dlopen(). See https://github.com/termux/termux-packages/issues/462.
+# symbols on dlopen(). See https://github.com/msmt2018/termux-packages/issues/462.
 TERMUX_PKG_DEPENDS="libc++, openssl, c-ares, libicu, libsqlite, zlib"
 TERMUX_PKG_RECOMMENDS="npm"
 TERMUX_PKG_CONFLICTS="nodejs-lts, nodejs-current"

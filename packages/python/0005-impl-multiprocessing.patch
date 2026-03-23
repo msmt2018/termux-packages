@@ -1,5 +1,5 @@
 sem_open() and sem_unlink() are implemented in Termux by libandroid-posix-semaphore
-https://github.com/termux/termux-packages/issues/28777
+https://github.com/msmt2018/termux-packages/issues/28777
 
 --- a/configure.ac
 +++ b/configure.ac

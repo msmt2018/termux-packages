@@ -30,7 +30,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-ares
 "
 
-# https://github.com/termux/termux-packages/issues/15889
+# https://github.com/msmt2018/termux-packages/issues/15889
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_getpwuid=yes"
 
 # Starting with version 7.62 curl started enabling http/2 by default.

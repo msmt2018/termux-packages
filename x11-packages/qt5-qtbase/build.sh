@@ -31,7 +31,7 @@ termux_step_pre_configure () {
 
 	# This is needed for some packages depends on qt5-qtbase, such
 	# as qt5-qtwebengine
-	# https://github.com/termux/termux-packages/issues/18810
+	# https://github.com/msmt2018/termux-packages/issues/18810
 	export LDFLAGS+=" -Wl,--undefined-version"
 
 	## Create qmake.conf suitable for cross-compiling.

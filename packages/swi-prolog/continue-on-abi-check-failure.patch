@@ -1,5 +1,5 @@
 swi-prolog cannot currently continue in Termux on 32-bit ARM architecture without this patch.
-https://github.com/termux/termux-packages/issues/22737
+https://github.com/msmt2018/termux-packages/issues/22737
 --- a/src/pl-init.c
 +++ b/src/pl-init.c
 @@ -256,11 +256,21 @@ check_home(const char *dir)

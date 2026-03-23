@@ -1,6 +1,9 @@
 name: Generate bootstrap archives (android-7)
 
 on:
+  push:
+    branches:
+      - com.itsaky.androidide
   schedule:
     - cron: "0 0 * * 0"
   workflow_dispatch:
@@ -23,7 +26,7 @@ jobs:
           - arm
           - i686
           - x86_64
-    if: github.repository == 'termux/termux-packages'
+    if: github.repository == 'msmt2018/termux-packages'
     steps:
       - name: Git clone
         uses: actions/checkout@v6
@@ -42,6 +45,14 @@ jobs:
     steps:
       - name: Git clone
         uses: actions/checkout@v6
+        
+      - name: Generate Custom Bootstrap
+        env:
+          TERMUX_APP_PACKAGE: "com.itsaky.androidide"
+        run: |
+          chmod +x ./scripts/generate-bootstraps.sh
+          ./scripts/generate-bootstraps.sh --architectures aarch64 --no-upload
+
         with:
           fetch-depth: 0
       - name: Fetch bootstrap archives

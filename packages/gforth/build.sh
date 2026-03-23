@@ -45,7 +45,7 @@ termux_step_post_configure() {
 
 termux_step_post_massage() {
 	# Alignment of magic can be broken by shebang fix:
-	# https://github.com/termux/termux-packages/issues/14648
+	# https://github.com/msmt2018/termux-packages/issues/14648
 	local f
 	for f in $(find ./lib/gforth ./share/gforth -type f -name '*.fi'); do
 		if [ $(head -c 2 "${f}") != '#!' ]; then

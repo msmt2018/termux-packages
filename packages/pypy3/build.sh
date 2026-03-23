@@ -104,11 +104,11 @@ __setup_termux_docker_rootfs() {
 	# Download update-static-dns and static-dns-hosts.txt from older termux-docker commit
 	mkdir -p "$TERMUX_PKG_CACHEDIR"/termux-docker-utils
 	termux_download \
-		https://github.com/termux/termux-docker/raw/98af62205f4da832b71bb4de09cb8d6b17ceeaca/static-dns-hosts.txt \
+		https://github.com.itsaky.androidide/termux-docker/raw/98af62205f4da832b71bb4de09cb8d6b17ceeaca/static-dns-hosts.txt \
 		"$TERMUX_PKG_CACHEDIR"/termux-docker-utils/static-dns-hosts.txt \
 		f5e28c8d37dc69e4876372cc05dcfd07aadc8499f5fa05bb6af1cfbff7cd656a
 	termux_download \
-		https://github.com/termux/termux-docker/raw/98af62205f4da832b71bb4de09cb8d6b17ceeaca/system/arm/bin/update-static-dns \
+		https://github.com.itsaky.androidide/termux-docker/raw/98af62205f4da832b71bb4de09cb8d6b17ceeaca/system/arm/bin/update-static-dns \
 		"$TERMUX_PKG_CACHEDIR"/termux-docker-utils/update-static-dns \
 		14b6ba13506dd90b691e5dbb84bf79ca155837dd43eb05c0e68fbe991c05ee5e
 

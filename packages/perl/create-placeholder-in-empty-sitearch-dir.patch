@@ -1,4 +1,4 @@
-Fixes https://github.com/termux/termux-packages/issues/27136
+Fixes https://github.com/msmt2018/termux-packages/issues/27136
 by preventing termux_step_massage()
 from deleting the empty folder
 /data/data/com.itsaky.androidide/files/usr/lib/perl5/site_perl/5.40.3/aarch64-android/

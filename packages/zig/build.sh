@@ -44,7 +44,7 @@ termux_step_make_install() {
 	#ln -fsv "../lib/zig/zig" "${TERMUX_PREFIX}/bin/zig"
 
 	# https://github.com/ziglang/zig/issues/14146
-	# https://github.com/termux/termux-packages/issues/20294
+	# https://github.com/msmt2018/termux-packages/issues/20294
 	# Revert to symlink once fixed in upstream
 	cat <<- EOL > "${TERMUX_PREFIX}/bin/zig"
 	#!${TERMUX_PREFIX}/bin/sh

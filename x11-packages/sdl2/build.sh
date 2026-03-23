@@ -73,6 +73,6 @@ termux_step_pre_configure() {
 
 termux_step_post_make_install() {
 	# ld(1)ing with `-lSDL2` won't work without this:
-	# https://github.com/termux/x11-packages/issues/633
+	# https://github.com.itsaky.androidide/x11-packages/issues/633
 	ln -sf libSDL2-2.0.so ${TERMUX_PREFIX}/lib/libSDL2.so
 }

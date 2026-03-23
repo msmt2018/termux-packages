@@ -12,7 +12,7 @@ Date:   Mon Jan 12 07:03:37 2026 +0530
     Also have added a comment where we are monkeypatching sys.platform to
     "android" to remove it once minimum python requirement is removed
     
-    Found initially during Python bump for Termux (https://github.com/termux/termux-packages/pull/27739)
+    Found initially during Python bump for Termux (https://github.com/msmt2018/termux-packages/pull/27739)
     
     Also seems like Pyright too hasn't caught up with this yet. So it needs
     to be made aware as well

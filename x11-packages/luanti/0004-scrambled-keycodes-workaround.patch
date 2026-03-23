@@ -1,4 +1,4 @@
-After https://github.com/termux/termux-x11/pull/768, Termux:X11 now supports
+After https://github.com.itsaky.androidide/termux-x11/pull/768, Termux:X11 now supports
 Backspace Key (in both hardware and software keyboards), but this would not work
 in certain specific games like Luanti and SuperTux (neither in Termux:X11 nor in
 other X11 server implementations like the $PREFIX/bin/Xvnc program from the
@@ -25,8 +25,8 @@ This patch works around the problem as it manifests in Luanti.
 - No other keys are currently known to be affected by these problems
 
 More information:
-https://github.com/termux/termux-x11/pull/768#issuecomment-2692202601
-https://github.com/termux-user-repository/tur/pull/1585
+https://github.com.itsaky.androidide/termux-x11/pull/768#issuecomment-2692202601
+https://github.com.itsaky.androidide-user-repository/tur/pull/1585
 
 
 --- a/irr/include/Keycodes.h

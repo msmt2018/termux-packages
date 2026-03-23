@@ -21,7 +21,7 @@ termux_step_pre_configure() {
 		export CXXFLAGS+=" -march=armv8.1-a"
 	fi
 
-	# Workaround borrowed from https://github.com/termux/termux-packages/pull/22212/files
+	# Workaround borrowed from https://github.com/msmt2018/termux-packages/pull/22212/files
 	local _libgcc_file _libgcc_path _libgcc_name
 	_libgcc_file="$($CC -print-libgcc-file-name)"
 	_libgcc_path="$(dirname "$_libgcc_file")"

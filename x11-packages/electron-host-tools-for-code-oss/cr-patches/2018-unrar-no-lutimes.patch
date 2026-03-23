@@ -1,4 +1,4 @@
-Origin: https://github.com/termux/termux-packages/blob/b6a1362cec0f5432629b433b389a70357059f79b/packages/unrar/os.hpp.patch
+Origin: https://github.com/msmt2018/termux-packages/blob/b6a1362cec0f5432629b433b389a70357059f79b/packages/unrar/os.hpp.patch
 
 diff -u -r ../unrar/os.hpp ./os.hpp
 --- a/third_party/unrar/src/os.hpp	2017-06-10 13:59:52.000000000 +0000

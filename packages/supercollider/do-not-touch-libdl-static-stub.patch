@@ -1,5 +1,5 @@
 Causes supercollider to not use the statc stub of libdl,
-to work around https://github.com/termux/termux-packages/issues/26478
+to work around https://github.com/msmt2018/termux-packages/issues/26478
 
 --- a/server/scsynth/CMakeLists.txt
 +++ b/server/scsynth/CMakeLists.txt

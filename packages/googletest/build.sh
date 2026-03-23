@@ -11,7 +11,7 @@ TERMUX_PKG_DEPENDS="libc++"
 TERMUX_PKG_CONFLICTS="libgtest"
 TERMUX_PKG_REPLACES="libgtest"
 # -DCMAKE_INSTALL_INCLUDEDIR=$TERMUX__PREFIX__INCLUDE_SUBDIR
-# is needed in order to fix https://github.com/termux/termux-packages/issues/25693
+# is needed in order to fix https://github.com/msmt2018/termux-packages/issues/25693
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -DBUILD_SHARED_LIBS=ON
 -DCMAKE_INSTALL_INCLUDEDIR=$TERMUX__PREFIX__INCLUDE_SUBDIR

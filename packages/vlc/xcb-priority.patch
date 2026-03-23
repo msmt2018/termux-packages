@@ -1,6 +1,6 @@
 By default VLC uses OpenGL output, but on termux it has low performance and is laggy because of llvmpipe being used in most cases.
 This patch gives XCB backend higher priority to make video playback smooth.
-https://github.com/termux/termux-packages/issues/19613
+https://github.com/msmt2018/termux-packages/issues/19613
 +++ ./modules/video_output/xcb/x11.c
 @@ -49,7 +49,7 @@
      set_description (N_("X11 video output (XCB)"))

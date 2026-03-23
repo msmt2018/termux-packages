@@ -328,7 +328,7 @@ use_jumbo_build = true
 # Compile pdfium as a static library
 pdf_is_complete_lib = true
 # NDK r29 can't compile chromium with cxx23, see
-# https://github.com/termux/termux-packages/issues/28459#issuecomment-3991943697
+# https://github.com/msmt2018/termux-packages/issues/28459#issuecomment-3991943697
 use_cxx23 = false
 " > $_common_args_file
 

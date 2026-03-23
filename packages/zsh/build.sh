@@ -82,22 +82,22 @@ termux_step_post_configure() {
 	# Since we build zsh non-dynamically (since dynamic loading doesn't work on Android when enabled),
 	# we need to explicitly enable the additional modules we want.
 	local modules=(
-	'cap'           # - The cap module was requested in https://github.com/termux/termux-packages/issues/3102.
+	'cap'           # - The cap module was requested in https://github.com/msmt2018/termux-packages/issues/3102.
 	'curses'        # - The curses module was requested by BrainDamage on IRC (#termux).
-	'deltochar'     # - The deltochar module is used by grml-zshrc https://github.com/termux/termux-packages/issues/494.
-	'files'         # - The files module is needed by `compinstall` https://github.com/termux/termux-packages/issues/61.
-	'mapfile'       # - The mapfile module was requested in https://github.com/termux/termux-packages/issues/3116.
-	'mathfunc'      # - The mathfunc module is used by grml-zshrc https://github.com/termux/termux-packages/issues/494.
-	'newuser'       # - The newuser module was requested in https://github.com/termux/termux-packages/discussions/20603.
-	'param_private' # - The param_private module was requested in https://github.com/termux/termux-packages/issues/7391.
+	'deltochar'     # - The deltochar module is used by grml-zshrc https://github.com/msmt2018/termux-packages/issues/494.
+	'files'         # - The files module is needed by `compinstall` https://github.com/msmt2018/termux-packages/issues/61.
+	'mapfile'       # - The mapfile module was requested in https://github.com/msmt2018/termux-packages/issues/3116.
+	'mathfunc'      # - The mathfunc module is used by grml-zshrc https://github.com/msmt2018/termux-packages/issues/494.
+	'newuser'       # - The newuser module was requested in https://github.com/msmt2018/termux-packages/discussions/20603.
+	'param_private' # - The param_private module was requested in https://github.com/msmt2018/termux-packages/issues/7391.
 	'pcre'          # - The pcre module expands on the regex modules capabilities and is used by several extensions.
 	'regex'         # - The regex module seems to be used by several extensions.
 	'socket'        # - The socket module was requested by BrainDamage on IRC (#termux).
-	'stat'          # - The stat module is needed by zui https://github.com/termux/termux-packages/issues/2829.
-	'system'        # - The system module is needed by zplug https://github.com/termux/termux-packages/issues/659.
+	'stat'          # - The stat module is needed by zui https://github.com/msmt2018/termux-packages/issues/2829.
+	'system'        # - The system module is needed by zplug https://github.com/msmt2018/termux-packages/issues/659.
 	'zprof'         # - The zprof module was requested by BrainDamage on IRC (#termux).
-	'zpty'          # - The zpty module is needed by zsh-async https://github.com/termux/termux-packages/issues/672.
-	'zselect'       # - The zselect module is used by multiple plugins https://github.com/termux/termux-packages/issues/4939
+	'zpty'          # - The zpty module is needed by zsh-async https://github.com/msmt2018/termux-packages/issues/672.
+	'zselect'       # - The zselect module is used by multiple plugins https://github.com/msmt2018/termux-packages/issues/4939
 	)
 	for module in "${modules[@]}"; do
 		perl -p -i -e "s|${module}.mdd link=no|${module}.mdd link=static|" "$TERMUX_PKG_BUILDDIR/config.modules"

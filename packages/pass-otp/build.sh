@@ -21,7 +21,7 @@ termux_step_pre_configure() {
 termux_step_post_configure() {
 	# Replace $PREFIX with $PASS_PREFIX
 	# to avoid variable name conflicts with Termux's $PREFIX
-	# See: https://github.com/termux/termux-packages/issues/23569
+	# See: https://github.com/msmt2018/termux-packages/issues/23569
 	sed -i "s|PREFIX|PASS_PREFIX|g" otp.bash
 }
 

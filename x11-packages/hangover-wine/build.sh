@@ -128,7 +128,7 @@ termux_step_pre_configure() {
 
 	LDFLAGS+=" -landroid-spawn"
 
-	# https://github.com/termux-user-repository/tur/commit/9388bf3599bba33d7bd052cab0679fe9cd5917d2#commitcomment-176464300
+	# https://github.com.itsaky.androidide-user-repository/tur/commit/9388bf3599bba33d7bd052cab0679fe9cd5917d2#commitcomment-176464300
 	LDFLAGS+=" -Wl,--rosegment"
 }
 

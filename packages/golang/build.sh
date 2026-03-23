@@ -30,7 +30,7 @@ termux_step_make_install() {
 	(
 	cd "$TERMUX_PKG_SRCDIR/src" || termux_error_exit "failed to cd into source directory"
 	# Unset PKG_CONFIG to avoid the path being hardcoded into src/cmd/cgo/zdefaultcc.go,
-	# see https://github.com/termux/termux-packages/issues/3505.
+	# see https://github.com/msmt2018/termux-packages/issues/3505.
 	env CC_FOR_TARGET="$CC" \
 		CXX_FOR_TARGET="$CXX" \
 		CC=gcc \

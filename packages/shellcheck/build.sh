@@ -10,7 +10,7 @@ TERMUX_PKG_DEPENDS="libffi, libgmp, libiconv"
 TERMUX_PKG_BUILD_DEPENDS="aosp-libs"
 TERMUX_PKG_AUTO_UPDATE=true
 # i686 is currently unsupported pending;
-# https://github.com/termux/ghc-cross-tools/pull/6
+# https://github.com.itsaky.androidide/ghc-cross-tools/pull/6
 TERMUX_PKG_EXCLUDED_ARCHES="i686"
 
 termux_step_pre_configure() {

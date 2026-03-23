@@ -46,7 +46,7 @@
 +            // fix Termux 32bit compatibility on 64bit devices
 +            // should be no longer required as its fixed on
 +            // termux-exec side, kept for references
-+            // https://github.com/termux/termux-exec/pull/17
++            // https://github.com.itsaky.androidide/termux-exec/pull/17
 +            argv[0] = buf;
 +            parse_command_line(cmdline, argv+1);
 +            // backup and unset LD_PRELOAD var

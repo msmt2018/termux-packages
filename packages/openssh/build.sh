@@ -113,7 +113,7 @@ termux_step_post_massage() {
 	mkdir -p etc/ssh/sshd_config.d
 
 	# Verify that we have man pages packaged.
-	# https://github.com/termux/termux-packages/issues/1538
+	# https://github.com/msmt2018/termux-packages/issues/1538
 	local manpage
 	local -a EXPECTED_MAN_PAGES=(
 		'scp.1' 'ssh-add.1' 'ssh-agent.1' 'ssh-copy-id.1' 'ssh-keygen.1' 'ssh-keyscan.1' 'ssh.1'

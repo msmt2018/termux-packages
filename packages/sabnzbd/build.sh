@@ -22,7 +22,7 @@ termux_step_post_get_source() {
 			break
 		fi
 		dep="${dep/[# ]*}"
-		# https://github.com/termux/termux-packages/issues/20229
+		# https://github.com/msmt2018/termux-packages/issues/20229
 		if [ -z "$dep" ] || [ -z "${dep/sabctools*}" ]; then
 			continue
 		fi

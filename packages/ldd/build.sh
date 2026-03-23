@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/termux-packages
+TERMUX_PKG_HOMEPAGE=https://github.com/msmt2018/termux-packages
 TERMUX_PKG_DESCRIPTION="Fake ldd command"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux"

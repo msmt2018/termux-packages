@@ -49,7 +49,7 @@ termux_step_pre_configure() {
 }
 
 termux_step_post_configure() {
-	# https://github.com/termux/termux-packages/issues/12458
+	# https://github.com/msmt2018/termux-packages/issues/12458
 	mkdir -p trans
 }
 

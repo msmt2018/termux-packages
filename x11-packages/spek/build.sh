@@ -16,6 +16,6 @@ termux_step_pre_configure() {
 termux_step_create_subpkg_debscripts() {
 	cat <<- EOF > ./postinst
 	#!$TERMUX_PREFIX/bin/sh
-	echo "Note: If you encounter Segmentation Fault, then please open an issue at https://github.com/termux/termux-packages/issues"
+	echo "Note: If you encounter Segmentation Fault, then please open an issue at https://github.com/msmt2018/termux-packages/issues"
 	EOF
 }

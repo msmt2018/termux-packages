@@ -36,7 +36,7 @@ termux_step_pre_configure() {
 	LDFLAGS+=" -lcrypto"
 }
 
-# See: https://github.com/termux/termux-packages/issues/23268#issuecomment-2685308408
+# See: https://github.com/msmt2018/termux-packages/issues/23268#issuecomment-2685308408
 # (some packages do not accept '--rpath' or '--rpath-hack' configure arguments)
 # Error: Unknown option --rpath-hack
 termux_step_configure() {

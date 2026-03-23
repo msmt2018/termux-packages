@@ -40,7 +40,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_linkat=no"
 # Do not assume getaddrinfo is buggy when cross compiling:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_buggy_getaddrinfo=no"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" --enable-loadable-sqlite-extensions"
-# Fix https://github.com/termux/termux-packages/issues/2236:
+# Fix https://github.com/msmt2018/termux-packages/issues/2236:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_little_endian_double=yes"
 # Force enable posix semaphores.
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_posix_semaphores_enabled=yes"
@@ -55,9 +55,9 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_shm_unlink=yes"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_working_tzset=yes"
 # prevents 'configure: error: Cross compiling requires --with-build-python' (even during on-device build)
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" --with-build-python=python$_MAJOR_VERSION"
-# https://github.com/termux/termux-packages/issues/16879
+# https://github.com/msmt2018/termux-packages/issues/16879
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_header_sys_xattr_h=no"
-# https://github.com/termux/termux-packages/issues/28684 (termux has inline getgrent stub in grp.h header patch)
+# https://github.com/msmt2018/termux-packages/issues/28684 (termux has inline getgrent stub in grp.h header patch)
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_getgrent=yes"
 
 TERMUX_PKG_RM_AFTER_INSTALL="

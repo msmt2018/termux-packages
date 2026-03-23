@@ -4,7 +4,7 @@ used because it contains GNU/Linux binaries that are sent there by the automatic
 of qt6-*-cross-tools packages during termux_step_get_dependencies() by scripts/buildorder.py
 installing the qt6-*-cross-tools subpackages of qt6-* packages during the builds of reverse dependencies
 of qt6,
-https://github.com/termux/termux-packages/blob/da3717f43930c480bd8dfcf1c002430e43e49013/scripts/buildorder.py#L159
+https://github.com/msmt2018/termux-packages/blob/da3717f43930c480bd8dfcf1c002430e43e49013/scripts/buildorder.py#L159
 
 without breaking the builds of anything in TERMUX_ON_DEVICE_BUILD=false mode,
 where CMAKE_HOST_SYSTEM_NAME is "Linux" so the paths set by

@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/issues/25308
+https://github.com/msmt2018/termux-packages/issues/25308
 
 --- a/chromium/src/third_party/perfetto/include/perfetto/tracing/internal/track_event_data_source.h
 +++ b/chromium/src/third_party/perfetto/include/perfetto/tracing/internal/track_event_data_source.h

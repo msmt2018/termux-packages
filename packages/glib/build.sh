@@ -84,9 +84,9 @@ termux_step_pre_configure() {
 	export PATH="${_WRAPPER_BIN}:${PATH}"
 
 	# Magic happens here.
-	# I borrowed nested building method from https://github.com/termux/termux-packages/blob/1244c75380beefc7f7da9744d55aa88df1640acb/x11-packages/qbittorrent/build.sh#L21-L28
+	# I borrowed nested building method from https://github.com/msmt2018/termux-packages/blob/1244c75380beefc7f7da9744d55aa88df1640acb/x11-packages/qbittorrent/build.sh#L21-L28
 	# and modified termux_step_configure_meson in runtime to make it use another prefix
-	# Also I used advice from here https://github.com/termux/termux-packages/issues/20447#issuecomment-2156066062
+	# Also I used advice from here https://github.com/msmt2018/termux-packages/issues/20447#issuecomment-2156066062
 
 	# Running a subshell to not mess with variables
 	(

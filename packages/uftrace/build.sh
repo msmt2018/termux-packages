@@ -12,7 +12,7 @@ TERMUX_PKG_SHA256=c35ef25f279684fc7d79dcc250fb29386890870fd2c9f812e587151419ca01
 TERMUX_PKG_DEPENDS="capstone, libandroid-execinfo, libandroid-glob, libandroid-spawn, libc++, libdw, libelf, luajit, ncurses, python"
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
-# See https://github.com/termux/termux-packages/pull/21712 about arm build failure:
+# See https://github.com/msmt2018/termux-packages/pull/21712 about arm build failure:
 TERMUX_PKG_EXCLUDED_ARCHES="arm"
 
 # https://github.com/android/ndk/issues/1987#issuecomment-1886021103

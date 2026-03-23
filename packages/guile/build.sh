@@ -17,7 +17,7 @@ TERMUX_PKG_CONFLICTS="guile18"
 TERMUX_PKG_HOSTBUILD=true
 TERMUX_PKG_BUILD_IN_SRC=true
 
-# https://github.com/termux/termux-packages/issues/14806
+# https://github.com/msmt2018/termux-packages/issues/14806
 TERMUX_PKG_NO_STRIP=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 LIBS=-landroid-spawn

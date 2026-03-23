@@ -17,7 +17,7 @@ termux_step_pre_configure() {
 	# https://github.com/rust-lang/compiler-builtins#unimplemented-functions
 	# https://github.com/rust-lang/rfcs/issues/2629
 	# https://github.com/rust-lang/rust/issues/46651
-	# https://github.com/termux/termux-packages/issues/8029
+	# https://github.com/msmt2018/termux-packages/issues/8029
 	local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
 	export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=$(${CC} -print-libgcc-file-name)"
 	export WASMER_INSTALL_PREFIX="${TERMUX_PREFIX}"

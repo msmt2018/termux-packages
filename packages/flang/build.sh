@@ -16,7 +16,7 @@ TERMUX_PKG_SHA256=(
 TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_HOSTBUILD=true
 # `flang-new` should be rebuilt when libllvm bumps version.
-# See https://github.com/termux/termux-packages/issues/19362
+# See https://github.com/msmt2018/termux-packages/issues/19362
 dep_qualifier="$TERMUX_PKG_VERSION-$TERMUX_PKG_REVISION"
 TERMUX_PKG_DEPENDS="libandroid-complex-math-static, libc++, libllvm (= $dep_qualifier), clang (= $dep_qualifier), lld (= $dep_qualifier), mlir (= $dep_qualifier)"
 TERMUX_PKG_BUILD_DEPENDS="libllvm-static"

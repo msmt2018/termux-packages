@@ -22,7 +22,7 @@ termux_extract_src_archive() {
 }
 
 termux_step_pre_configure() {
-	# https://github.com/termux/termux-packages/issues/18810
+	# https://github.com/msmt2018/termux-packages/issues/18810
 	LDFLAGS+=" -Wl,--undefined-version"
 }
 

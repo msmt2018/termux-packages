@@ -49,7 +49,7 @@ termux_step_make() {
 }
 
 termux_step_pre_configure() {
-	# Oz flag causes problems. See https://github.com/termux/termux-packages/issues/1680:
+	# Oz flag causes problems. See https://github.com/msmt2018/termux-packages/issues/1680:
 	CFLAGS=${CFLAGS/-Oz/-Os}
 
 	# ld.lld: error: non-exported symbol '__umoddi3' in arm and i686

@@ -1,4 +1,4 @@
-This fixes https://github.com/termux/termux-packages/issues/24741
+This fixes https://github.com/msmt2018/termux-packages/issues/24741
 
 --- a/src/wildcard.rs
 +++ b/src/wildcard.rs

@@ -25,7 +25,7 @@ termux_step_post_make_install() {
 # https://www.khronos.org/registry/OpenCL/specs/2.2/html/OpenCL_ICD_Installation.html
 # Intepreting this as providing library "libOpenCL.so" with SONAME "libOpenCL.so" on Android
 
-# https://github.com/termux/termux-packages/issues/7510
+# https://github.com/msmt2018/termux-packages/issues/7510
 # Removed handling of PREFIX/etc/OpenCL/vendors to match Desktop Linux ocl-icd behaviour
 # Removed creation of android.icd as it never worked without modifying LD_LIBRARY_PATH on Android
 # Driver packages (eg: clvk) should be the one handling the items above

@@ -134,6 +134,6 @@ termux_step_make_install() {
 # References
 # - Jellyfin-FFMPEG
 # https://github.com/jellyfin/jellyfin-ffmpeg/blob/jellyfin/builder/build.sh
-# https://github.com/termux/termux-packages/tree/master/packages/ffmpeg
+# https://github.com/msmt2018/termux-packages/tree/master/packages/ffmpeg
 # Note: All patches for Jellyfin-FFMPEG should be based off the patched version, see termux_step_post_get_source
 # One of the source urls (jellyfin-web) points to a zip to avoid overwriting jellyfin's source archive due to duplicate filename

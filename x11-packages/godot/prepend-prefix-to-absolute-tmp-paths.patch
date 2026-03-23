@@ -1,4 +1,4 @@
-Fixes https://github.com/termux/termux-packages/issues/24214
+Fixes https://github.com/msmt2018/termux-packages/issues/24214
 
 --- a/drivers/unix/file_access_unix_pipe.cpp
 +++ b/drivers/unix/file_access_unix_pipe.cpp

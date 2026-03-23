@@ -30,5 +30,5 @@ termux_step_make_install() {
 }
 
 # Termux will not package yarn-berry
-# https://github.com/termux/termux-packages/issues/19407
+# https://github.com/msmt2018/termux-packages/issues/19407
 # https://github.com/yarnpkg/berry/discussions/5629#discussioncomment-6593555

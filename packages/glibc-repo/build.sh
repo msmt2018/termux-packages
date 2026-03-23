@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/glibc-packages
+TERMUX_PKG_HOMEPAGE=https://github.com.itsaky.androidide/glibc-packages
 TERMUX_PKG_DESCRIPTION="A package repository containing glibc-based programs and libraries"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-pacman"

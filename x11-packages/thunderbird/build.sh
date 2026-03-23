@@ -164,7 +164,7 @@ termux_step_make_install() {
 }
 
 termux_step_post_make_install() {
-	# https://github.com/termux/termux-packages/issues/21511
+	# https://github.com/msmt2018/termux-packages/issues/21511
 	# https://phabricator.services.mozilla.com/D181687
 	# Android 8.x and older not support "-z pack-relative-relocs" / DT_RELR
 	local r

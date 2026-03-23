@@ -1,5 +1,5 @@
 https://github.com/llvm/llvm-project/issues/114987
-https://github.com/termux/termux-packages/issues/24544
+https://github.com/msmt2018/termux-packages/issues/24544
 
 --- a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
 +++ b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp

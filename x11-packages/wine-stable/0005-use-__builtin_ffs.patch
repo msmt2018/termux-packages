@@ -1,4 +1,4 @@
-https://github.com/termux/termux-packages/pull/28373#issuecomment-3867446441
+https://github.com/msmt2018/termux-packages/pull/28373#issuecomment-3867446441
 
 --- a/dlls/ntdll/unix/unix_private.h
 +++ b/dlls/ntdll/unix/unix_private.h

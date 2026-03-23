@@ -23,7 +23,7 @@ fi
 # for important variables, especially specific path variables against
 # `TERMUX_REGEX__SAFE_*_PATH` regexes to reduce any potential damage.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 ###
 
 ##
@@ -191,7 +191,7 @@ TERMUX_REGEX__SINGLE_OR_DOUBLE_DOT_CONTAINING_PATH='((^\./)|(^\.\./)|(/\.$)|(/\.
 #
 # - https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html
 # - https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
 ##
 TERMUX_REGEX__INVALID_TERMUX_ROOTFS_PATHS='^((/bin(/.*)?)|(/boot(/.*)?)|(/dev(/.*)?)|(/etc(/.*)?)|(/home)|(/lib(/.*)?)|(/lib[^/]+(/.*)?)|(/media)|(/mnt)|(/opt)|(/proc(/.*)?)|(/root)|(/run(/.*)?)|(/sbin(/.*)?)|(/srv(/.*)?)|(/sys(/.*)?)|(/tmp(/.*)?)|(/usr)|(/usr/local)|(((/usr/)|(/usr/local/))((bin)|(games)|(include)|(lib)|(libexec)|(lib[^/]+)|(sbin)|(share)|(src)|(X11R6))(/.*)?)|(/var(/.*)?)|(/bin.usr-is-merged)|(/lib.usr-is-merged)|(/sbin.usr-is-merged)|(/.dockerinit)|(/.dockerenv))$'
 
@@ -256,7 +256,7 @@ TERMUX_REGEX__APP_PACKAGE_NAME="^[a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)+
 #  to be installed on a removable/portable volume/sd card being used as
 #  adoptable storage.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
 ##
 TERMUX_REGEX__APP_DATA_DIR_PATH='^(((/data/data)|(/data/user/[0-9]+)|(/mnt/expand/[^/]+/user/[0-9]+))/[^/]+)$'
 
@@ -335,8 +335,8 @@ fi
 #
 # Variables defined in this file need to be in sync with `termux-app`
 # (`TermuxConstants` and `TermuxCoreConstants`), termux site and `termux-exec`.
-# - https://github.com/termux/termux-app/blob/master/termux-shared/src/main/java/com/termux/shared/termux/TermuxConstants.java
-# - https://github.com/termux/termux-app/blob/master/termux-shared/src/main/java/com/termux/shared/termux/core/TermuxCoreConstants.java
+# - https://github.com.itsaky.androidide/termux-app/blob/master/termux-shared/src/main/java/com.itsaky.androidide/shared/termux/TermuxConstants.java
+# - https://github.com.itsaky.androidide/termux-app/blob/master/termux-shared/src/main/java/com.itsaky.androidide/shared/termux/core/TermuxCoreConstants.java
 #
 # Following is a list of `TERMUX_` variables that are safe to modify when forking.
 # **DO NOT MODIFY ANY OTHER VARIABLE UNLESS YOU KNOW WHAT YOU ARE DOING.**
@@ -422,7 +422,7 @@ TERMUX__INTERNAL_NAME_REGEX="^[a-z0-9][a-z0-9_-]+[a-z0-9]$"
 ##
 # The max length for the `TERMUX__INTERNAL_NAME`.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `7` is chosen.
 #
 # Constant value: `7`
@@ -441,7 +441,7 @@ TERMUX__REPOS_HOST_ORG_NAME="termux"
 ##
 # Termux repositories host organization url.
 #
-# Default value: `https://github.com/termux`
+# Default value: `https://github.com.itsaky.androidide`
 ##
 TERMUX__REPOS_HOST_ORG_URL="https://github.com/$TERMUX__REPOS_HOST_ORG_NAME"
 
@@ -454,13 +454,13 @@ TERMUX__REPOS_HOST_ORG_URL="https://github.com/$TERMUX__REPOS_HOST_ORG_NAME"
 # Ideally package name should be `<= 21` characters and max `33`
 # characters. If package name has not yet been chosen, then it would
 # be best to keep it to `<= 10` characters. Check
-# https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why.
 #
 # **See Also:**
 # - `TERMUX_APP__NAMESPACE`.
 # - https://developer.android.com/build/configure-app-module#set-application-id
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
 #
 # Default value: `com.itsaky.androidide`
 ##
@@ -492,7 +492,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX_APP__DATA_DIR" "sa
 # The max length for the `TERMUX_APP__DATA_DIR` including the null '\0'
 # terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `69` is chosen.
 #
 # Constant value: `69`
@@ -529,7 +529,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__PROJECT_SUBDIR" "
 # a library, so that Termux files do not interfere with other files
 # of Termux app forks or apps that may use the Termux library.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-project-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-project-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/termux`
 ##
@@ -553,7 +553,7 @@ TERMUX__CORE_SUBDIR="core"
 # This contains Termux core files for the Termux app, like user settings and configs for the app,
 # which and are independent of any specific rootfs.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-core-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-core-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/termux/core`
 ##
@@ -580,7 +580,7 @@ TERMUX__APPS_SUBDIR="app"
 # filesystem/pathname socket files of servers created by the apps.
 # - https://man7.org/linux/man-pages/man7/unix.7.html
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-apps-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-apps-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/termux/app`
 ##
@@ -591,7 +591,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__APPS_DIR" "safe_a
 # The max length for the `TERMUX__APPS_DIR` including the null '\0'
 # terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `84` is chosen.
 #
 # Constant value: `84`
@@ -602,7 +602,7 @@ TERMUX__APPS_DIR___MAX_LEN=84
 # The max length for the Termux apps api socket server parent directory
 # including the null '\0' terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `98` is chosen.
 #
 # Constant value: `98`
@@ -646,7 +646,7 @@ TERMUX__APPS_APP_IDENTIFIER_REGEX="^[a-zA-Z0-9]{3,}([._-][a-zA-Z0-9]+)*$"
 # `TERMUX__APPS_DIR_BY_IDENTIFIER` excluding the null '\0' terminator
 # that represents an app identifier.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `10` is chosen.
 #
 # Constant value: `10`
@@ -689,7 +689,7 @@ TERMUX__APPS_APP_UID_REGEX="^[1-9][0-9]{4,8}$"
 # `TERMUX__APPS_DIR_BY_UID` excluding the null '\0' terminator that
 # represents an app uid.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `9` is chosen.
 #
 # Constant value: `9`
@@ -773,7 +773,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__ROOTFS_SUBDIR" "a
 # Termux rootfs directory path under `TERMUX_APP__DATA_DIR` that
 # contains the Linux environment rootfs provided by Termux.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-rootfs-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-rootfs-directory
 # - https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03.html
 #
 # The Termux rootfs must not be set to path in
@@ -796,7 +796,7 @@ TERMUX_APPS_DIR="$TERMUX__ROOTFS/apps"
 # The max length for the `TERMUX__ROOTFS` including the null '\0'
 # terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `86` is chosen.
 #
 # Constant value: `86`
@@ -824,7 +824,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__HOME_SUBDIR" "saf
 #
 # It serves the same purpose as the `/home` directory on Linux distros.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-home-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-home-directory
 # - https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s08.html
 #
 # Check `TERMUX__PREFIX` variable docs for rules that apply depending
@@ -871,7 +871,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__PREFIX_SUBDIR" "a
 # and contains the `bin`, `etc`, `include`, `lib`, `libexec`, `opt`,
 # `share`, `tmp` and `var` sub directories.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-prefix-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-prefix-directory
 # - https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04.html
 #
 # If `TERMUX__ROOTFS` is not equal to `/`, then by default Termux
@@ -939,8 +939,8 @@ __termux_build_props__add_variables_validator_actions "TERMUX__PREFIX_SUBDIR" "a
 # `termux_step_setup_variables` if `TERMUX_PACKAGE_LIBRARY` equals `glibc`.
 # However, `TERMUX__PREFIX_CLASSICAL` retains the original value
 # set below for `TERMUX__PREFIX`.
-# - https://github.com/termux/termux-packages/pull/16901
-# - https://github.com/termux/termux-packages/pull/20864
+# - https://github.com/msmt2018/termux-packages/pull/16901
+# - https://github.com/msmt2018/termux-packages/pull/20864
 #
 # Default value: `/data/data/com.itsaky.androidide/files/usr`
 ##
@@ -982,8 +982,8 @@ TERMUX__PREFIX_GLIBC_SUBDIR="glibc"
 # where all Termux `glibc` packages data is installed.
 #
 # **See Also:**
-# - https://github.com/termux-pacman/glibc-packages
-# - https://github.com/termux/glibc-packages (mirror)
+# - https://github.com.itsaky.androidide-pacman/glibc-packages
+# - https://github.com.itsaky.androidide/glibc-packages (mirror)
 #
 # Default value: `/data/data/com.itsaky.androidide/files/usr/glibc`
 ##
@@ -996,7 +996,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX__PREFIX_GLIBC" "sa
 # The max length for the `TERMUX__PREFIX` including the null '\0'
 # terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `90` is chosen.
 #
 # Constant value: `90`
@@ -1023,9 +1023,9 @@ TERMUX__PREFIX__BIN_DIR___MAX_LEN="$((TERMUX__PREFIX_DIR___MAX_LEN + 1 + 3))" # 
 # `logcat` if linker debugging is enabled.
 #
 # **See Also:**
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
-# - https://github.com/termux/termux-core-package/blob/master/lib/termux-core_nos_c/tre/include/termux/termux_core__nos__c/v1/termux/file/TermuxFile.h
-# - https://github.com/termux/termux-exec-package/blob/master/lib/termux-exec_nos_c/tre/include/termux/termux_exec__nos__c/v1/termux/api/termux_exec/service/ld_preload/direct/exec/ExecIntercept.h
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# - https://github.com.itsaky.androidide/termux-core-package/blob/master/lib/termux-core_nos_c/tre/include/termux/termux_core__nos__c/v1/termux/file/TermuxFile.h
+# - https://github.com.itsaky.androidide/termux-exec-package/blob/master/lib/termux-exec_nos_c/tre/include/termux/termux_exec__nos__c/v1/termux/api/termux_exec/service/ld_preload/direct/exec/ExecIntercept.h
 #
 # Constant value: `127`
 ##
@@ -1035,7 +1035,7 @@ TERMUX__PREFIX__BIN_FILE___SAFE_MAX_LEN="$((TERMUX__PREFIX__BIN_DIR___MAX_LEN + 
 # The max length for entire shebang line for `termux-exec`.
 #
 # **See Also:**
-# - https://github.com/termux/termux-exec-package/blob/master/lib/termux-exec_nos_c/tre/include/termux/termux_exec__nos__c/v1/termux/api/termux_exec/service/ld_preload/direct/exec/ExecIntercept.h
+# - https://github.com.itsaky.androidide/termux-exec-package/blob/master/lib/termux-exec_nos_c/tre/include/termux/termux_exec__nos__c/v1/termux/api/termux_exec/service/ld_preload/direct/exec/ExecIntercept.h
 #
 # Default value: `340`
 ##
@@ -1088,7 +1088,7 @@ TERMUX__PREFIX__BIN_SUBDIR="bin"
 ##
 # Termux bin directory path under `TERMUX__PREFIX`.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-bin-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-bin-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/files/usr/bin`
 ##
@@ -1198,7 +1198,7 @@ TERMUX__PREFIX__LIB_SUBDIR="$TERMUX__PREFIX__BASE_LIB_SUBDIR"
 ##
 # Termux lib directory path under `TERMUX__PREFIX`.
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-lib-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-lib-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/files/usr/lib` (`$TERMUX__PREFIX__BASE_LIB_DIR`)
 ##
@@ -1301,7 +1301,7 @@ TERMUX__PREFIX__TMP_DIR="$TERMUX__PREFIX/$TERMUX__PREFIX__TMP_SUBDIR"
 # The max length for the `TERMUX__PREFIX__TMP_DIR` including the null
 # '\0' terminator.
 #
-# Check https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#file-path-limits
+# Check https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#file-path-limits
 # for why the value `94` is chosen.
 #
 # Constant value: `94`
@@ -1367,7 +1367,7 @@ TERMUX__CACHE_SUBDIR="cache"
 # Currently this is primarily used for packages cache files of package
 # managers (`apt`/`pacman`).
 #
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-app-cache-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-app-cache-directory
 #
 # Default value: `/data/data/com.itsaky.androidide/cache`
 ##
@@ -1497,7 +1497,7 @@ TERMUX__UNIX_PATH_MAX=108
 # variable names and/or get their values, with support for fallback
 # to the build values defined here if `$TERMUX_ENV__S_ROOT` variable
 # is not exported.**
-# - https://github.com/termux/termux-core-package/blob/master/site/pages/en/projects/docs/usage/utils/termux/shell/command/environment/termux-scoped-env-variable.md
+# - https://github.com.itsaky.androidide/termux-core-package/blob/master/site/pages/en/projects/docs/usage/utils/termux/shell/command/environment/termux-scoped-env-variable.md
 #
 # The value of this variable `TERMUX_ENV__S_ROOT` may be modified,
 # although not advisable since external programs would be using
@@ -1767,7 +1767,7 @@ TERMUX_ENV__S_TERMUX_AM_SOCKET="${TERMUX_ENV__S_ROOT}${TERMUX_ENV__SS_TERMUX_AM_
 ####
 # Variables for the Termux packages.
 #
-# - https://github.com/termux/termux-packages
+# - https://github.com/msmt2018/termux-packages
 ####
 
 ##
@@ -1780,7 +1780,7 @@ TERMUX_PKGS__REPO_NAME="termux-packages"
 ##
 # Termux packages repo url.
 #
-# Default value: `https://github.com/termux/termux-packages`
+# Default value: `https://github.com/msmt2018/termux-packages`
 ##
 TERMUX_PKGS__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_PKGS__REPO_NAME"
 
@@ -1791,7 +1791,7 @@ TERMUX_PKGS__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_PKGS__REPO_NAME"
 ####
 # Variables for the Termux app that hosts the packages.
 #
-# - https://github.com/termux/termux-app
+# - https://github.com.itsaky.androidide/termux-app
 ####
 
 ##
@@ -1830,7 +1830,7 @@ TERMUX_APP__REPO_NAME="termux-app"
 ##
 # Termux app repo url.
 #
-# Default value: `https://github.com/termux/termux-app`
+# Default value: `https://github.com.itsaky.androidide/termux-app`
 ##
 TERMUX_APP__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_APP__REPO_NAME"
 
@@ -1844,7 +1844,7 @@ TERMUX_APP__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_APP__REPO_NAME"
 # **See Also:**
 # - `TERMUX_APP__PACKAGE_NAME`.
 # - https://developer.android.com/build/configure-app-module#set-namespace
-# - https://github.com/termux/termux-app/tree/master/app/src/main/java/com/termux
+# - https://github.com.itsaky.androidide/termux-app/tree/master/app/src/main/java/com.itsaky.androidide
 #
 # Default value: `com.itsaky.androidide`
 ##
@@ -1869,7 +1869,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX_APP__APP_DIR" "saf
 # shell/terminal views.
 #
 # **See Also:**
-# - https://github.com/termux/termux-app/blob/master/app/src/main/java/com/termux/app/TermuxActivity.java
+# - https://github.com.itsaky.androidide/termux-app/blob/master/app/src/main/java/com.itsaky.androidide/app/TermuxActivity.java
 #
 # Default value: `com.itsaky.androidide.app.TermuxActivity`
 ##
@@ -1882,7 +1882,7 @@ TERMUX_APP__SHELL_API__SHELL_API_ACTIVITY__CLASS_NAME="$TERMUX_APP__NAMESPACE.ap
 # shell/terminal sessions.
 #
 # **See Also:**
-# - https://github.com/termux/termux-app/blob/master/app/src/main/java/com/termux/app/TermuxService.java
+# - https://github.com.itsaky.androidide/termux-app/blob/master/app/src/main/java/com.itsaky.androidide/app/TermuxService.java
 #
 # Default value: `com.itsaky.androidide.app.TermuxService`
 ##
@@ -1895,8 +1895,8 @@ TERMUX_APP__SHELL_API__SHELL_API_SERVICE__CLASS_NAME="$TERMUX_APP__NAMESPACE.app
 # commands sent by 3rd party apps via intents.
 #
 # **See Also:**
-# - https://github.com/termux/termux-app/blob/master/app/src/main/java/com/termux/app/RunCommandService.java
-# - https://github.com/termux/termux-app/wiki/RUN_COMMAND-Intent
+# - https://github.com.itsaky.androidide/termux-app/blob/master/app/src/main/java/com.itsaky.androidide/app/RunCommandService.java
+# - https://github.com.itsaky.androidide/termux-app/wiki/RUN_COMMAND-Intent
 #
 # Default value: `com.itsaky.androidide.app.RunCommandService`
 ##
@@ -1910,8 +1910,8 @@ TERMUX_APP__RUN_COMMAND_API__RUN_COMMAND_API_SERVICE__CLASS_NAME="$TERMUX_APP__N
 # and `ACTION_VIEW` intents to other apps, like by `termux-open`.
 #
 # **See Also:**
-# - https://github.com/termux/termux-app/blob/master/app/src/main/java/com/termux/app/TermuxOpenReceiver.java
-# - https://github.com/termux/termux-tools/blob/master/scripts/termux-open.in
+# - https://github.com.itsaky.androidide/termux-app/blob/master/app/src/main/java/com.itsaky.androidide/app/TermuxOpenReceiver.java
+# - https://github.com.itsaky.androidide/termux-tools/blob/master/scripts/termux-open.in
 #
 # Default value: `com.itsaky.androidide.app.TermuxOpenReceiver`
 ##
@@ -1952,7 +1952,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX_APP__AM_SOCKET__SE
 ####
 # Variables for the Termux:API app that hosts the packages.
 #
-# - https://github.com/termux/termux-api
+# - https://github.com.itsaky.androidide/termux-api
 ####
 
 ##
@@ -1962,7 +1962,7 @@ __termux_build_props__add_variables_validator_actions "TERMUX_APP__AM_SOCKET__SE
 # **See Also:**
 # - `TERMUX_API_APP__NAMESPACE`.
 # - https://developer.android.com/build/configure-app-module#set-application-id
-# - https://github.com/termux/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
+# - https://github.com/msmt2018/termux-packages/wiki/Termux-file-system-layout#termux-private-app-data-directory
 #
 # Default value: `com.itsaky.androidide.api`
 ##
@@ -2000,7 +2000,7 @@ TERMUX_API_APP__REPO_NAME="termux-api"
 ##
 # Termux:API app repo url.
 #
-# Default value: `https://github.com/termux/termux-api`
+# Default value: `https://github.com.itsaky.androidide/termux-api`
 ##
 TERMUX_API_APP__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_API_APP__REPO_NAME"
 
@@ -2014,7 +2014,7 @@ TERMUX_API_APP__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_API_APP__REPO_NAME
 # **See Also:**
 # - `TERMUX_API_APP__PACKAGE_NAME`.
 # - https://developer.android.com/build/configure-app-module#set-namespace
-# - https://github.com/termux/termux-api/tree/master/app/src/main/java/com/termux/api
+# - https://github.com.itsaky.androidide/termux-api/tree/master/app/src/main/java/com.itsaky.androidide/api
 #
 # Default value: `com.itsaky.androidide.api`
 ##
@@ -2040,8 +2040,8 @@ __termux_build_props__add_variables_validator_actions "TERMUX_API_APP__APP_DIR" 
 # native exec entry point.
 #
 # **See Also:**
-# - https://github.com/termux/termux-api/blob/master/app/src/main/java/com/termux/api/TermuxApiReceiver.java
-# - https://github.com/termux/termux-api-package/blob/master/termux-api.c
+# - https://github.com.itsaky.androidide/termux-api/blob/master/app/src/main/java/com.itsaky.androidide/api/TermuxApiReceiver.java
+# - https://github.com.itsaky.androidide/termux-api-package/blob/master/termux-api.c
 #
 # Default value: `com.itsaky.androidide.api.TermuxApiReceiver`
 ##
@@ -2054,7 +2054,7 @@ TERMUX_API_APP__ANDROID_API__ANDROID_API_RECEIVER__CLASS_NAME="$TERMUX_API_APP__
 ####
 # Variables for the `termux-api` package.
 #
-# - https://github.com/termux/termux-api-package
+# - https://github.com.itsaky.androidide/termux-api-package
 ####
 
 ##
@@ -2067,7 +2067,7 @@ TERMUX_API_PKG__REPO_NAME="termux-api-package"
 ##
 # The `termux-api` package repo url.
 #
-# Default value: `https://github.com/termux/termux-api-package`
+# Default value: `https://github.com.itsaky.androidide/termux-api-package`
 ##
 TERMUX_API_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_API_PKG__REPO_NAME"
 
@@ -2083,7 +2083,7 @@ TERMUX_API_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_API_PKG__REPO_NAME
 ####
 # Variables for the `termux-core` package.
 #
-# - https://github.com/termux/termux-core-package
+# - https://github.com.itsaky.androidide/termux-core-package
 ####
 
 ##
@@ -2096,7 +2096,7 @@ TERMUX_CORE_PKG__REPO_NAME="termux-core-package"
 ##
 # The `termux-core` package repo url.
 #
-# Default value: `https://github.com/termux/termux-core-package`
+# Default value: `https://github.com.itsaky.androidide/termux-core-package`
 ##
 TERMUX_CORE_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_CORE_PKG__REPO_NAME"
 
@@ -2107,7 +2107,7 @@ TERMUX_CORE_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_CORE_PKG__REPO_NA
 ####
 # Variables for the `termux-am` package.
 #
-# - https://github.com/termux/TermuxAm
+# - https://github.com.itsaky.androidide/TermuxAm
 ####
 
 ##
@@ -2120,7 +2120,7 @@ TERMUX_AM_PKG__REPO_NAME="TermuxAm"
 ##
 # The `termux-am` package repo url.
 #
-# Default value: `https://github.com/termux/TermuxAm`
+# Default value: `https://github.com.itsaky.androidide/TermuxAm`
 ##
 TERMUX_AM_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_AM_PKG__REPO_NAME"
 
@@ -2135,7 +2135,7 @@ TERMUX_AM_PKG__REPO_URL="$TERMUX__REPOS_HOST_ORG_URL/$TERMUX_AM_PKG__REPO_NAME"
 #
 # **See Also:**
 # - https://developer.android.com/build/configure-app-module#set-namespace
-# - https://github.com/termux/TermuxAm/tree/master/app/src/main/java/com/termux/termuxam
+# - https://github.com.itsaky.androidide/TermuxAm/tree/master/app/src/main/java/com.itsaky.androidide/termuxam
 #
 # Constant value: `com.itsaky.androidide.termuxam`
 ##
@@ -2149,8 +2149,8 @@ __termux_build_props__add_variables_validator_actions "TERMUX_AM_APP__NAMESPACE"
 # TermuxAm main class that is passed as `start-class-name` to
 # `/system/bin/app_process` when running `am.apk` set in `$CLASSPATH`.
 #
-# - https://github.com/termux/TermuxAm/blob/master/app/src/main/java/com/termux/termuxam/Am.java
-# - https://github.com/termux/TermuxAm/blob/v0.8.0/am-libexec-packaged#L30
+# - https://github.com.itsaky.androidide/TermuxAm/blob/master/app/src/main/java/com.itsaky.androidide/termuxam/Am.java
+# - https://github.com.itsaky.androidide/TermuxAm/blob/v0.8.0/am-libexec-packaged#L30
 # - https://cs.android.com/android/platform/superproject/+/android-14.0.0_r1:frameworks/base/cmds/app_process/app_main.cpp;l=31
 #
 # Default value: `com.itsaky.androidide.termuxam.Am`

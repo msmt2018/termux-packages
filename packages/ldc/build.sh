@@ -234,7 +234,7 @@ termux_step_make() {
 	export DFLAGS="$DFLAGS -linker=bfd -L-L$TERMUX_PKG_BUILDDIR/ldc-build-runtime.tmp/lib"
 	if [ $TERMUX_ARCH = arm ]; then export DFLAGS="$DFLAGS -L--fix-cortex-a8"; fi
 
-	# https://github.com/termux/termux-packages/issues/7188
+	# https://github.com/msmt2018/termux-packages/issues/7188
 	DFLAGS+=" -L--enable-new-dtags -L-rpath=$TERMUX_PREFIX/lib"
 
 	cd  $TERMUX_PKG_SRCDIR/dlang-tools

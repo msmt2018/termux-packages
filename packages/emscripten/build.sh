@@ -255,7 +255,7 @@ termux_step_pre_configure() {
 	# but we still remove "node_modules" directory in make install step
 	termux_setup_nodejs
 
-	# https://github.com/termux/termux-packages/issues/16358
+	# https://github.com/msmt2018/termux-packages/issues/16358
 	# TODO libclang-cpp.so* is not affected
 	if [[ "${TERMUX_ON_DEVICE_BUILD}" == "true" ]]; then
 		echo "WARN: ld.lld wrapper is not working for on-device builds. Skipping."
@@ -322,7 +322,7 @@ termux_step_make_install() {
 
 	# emscripten 4.0.13
 	# https://github.com/emscripten-core/emscripten/pull/23761
-	# https://github.com/termux/termux-packages/issues/25777
+	# https://github.com/msmt2018/termux-packages/issues/25777
 	./tools/maint/create_entry_points.py
 
 	# https://github.com/emscripten-core/emscripten/pull/15840

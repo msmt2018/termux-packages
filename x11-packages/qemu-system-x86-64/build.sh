@@ -42,7 +42,7 @@ TERMUX_PKG_PROVIDES="qemu-system-x86_64"
 TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_pre_configure() {
-	# Workaround for https://github.com/termux/termux-packages/issues/12261.
+	# Workaround for https://github.com/msmt2018/termux-packages/issues/12261.
 	if [ $TERMUX_ARCH = "aarch64" ]; then
 		rm -f $TERMUX_PKG_BUILDDIR/_lib
 		mkdir -p $TERMUX_PKG_BUILDDIR/_lib

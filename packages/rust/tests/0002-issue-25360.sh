@@ -1,5 +1,5 @@
 #!/bin/bash
-# https://github.com/termux/termux-packages/issues/25360
+# https://github.com/msmt2018/termux-packages/issues/25360
 # Credits: @Spector-Studios
 #
 # Unexpected output:-

@@ -1,4 +1,4 @@
-Fixes https://github.com/termux/termux-packages/issues/26982
+Fixes https://github.com/msmt2018/termux-packages/issues/26982
 g_strsplit() takes arguments as null-terminated gchar*, not pointer to individual char
 https://docs.gtk.org/glib/func.strsplit.html
 

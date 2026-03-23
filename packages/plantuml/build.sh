@@ -14,7 +14,7 @@ TERMUX_PKG_UPDATE_VERSION_REGEXP="\d+\.\d+\.\d+"
 termux_step_make() {
 	# increase gradle memory to avoid 'JVM garbage collector thrashing':
 	# https://stackoverflow.com/a/74143183/11708026
-	# https://github.com/termux/termux-packages/issues/24917
+	# https://github.com/msmt2018/termux-packages/issues/24917
 	$TERMUX_PKG_SRCDIR/gradlew --no-daemon --parallel --stacktrace assemble -Dorg.gradle.jvmargs=-Xmx4096M
 }
 

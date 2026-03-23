@@ -1,6 +1,6 @@
 # Skeleton build.sh script for new package.
 # For reference about available fields, check the Termux Developer's Wiki page:
-# https://github.com/termux/termux-packages/wiki/Creating-new-package
+# https://github.com/msmt2018/termux-packages/wiki/Creating-new-package
 
 TERMUX_PKG_HOMEPAGE=
 TERMUX_PKG_DESCRIPTION=""

@@ -20,7 +20,7 @@ termux_step_create_debscripts() {
 		touch \$DIR/scores.dat
 	EOF
 
-	# https://github.com/termux/termux-packages/issues/1401
+	# https://github.com/msmt2018/termux-packages/issues/1401
 	cat <<-EOF > ./prerm
 		#!$TERMUX_PREFIX/bin/sh
 		cd $TERMUX_PREFIX/lib/games/moria || exit

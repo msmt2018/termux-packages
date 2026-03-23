@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/termux-root-packages
+TERMUX_PKG_HOMEPAGE=https://github.com.itsaky.androidide/termux-root-packages
 TERMUX_PKG_DESCRIPTION="Package repository containing programs for rooted devices"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="Henrik Grimler @Grimler91"

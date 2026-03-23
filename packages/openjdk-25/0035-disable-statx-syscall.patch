@@ -3,7 +3,7 @@ https://github.com/openjdk/jdk21u/commit/4cf572e3b99b675418e456e7815fb6fd79245e3
 which was fixing https://bugs.openjdk.org/browse/JDK-8316304 ,
 because on some devices, for some reason it causes launching any JAR to crash the Java runtime.
 
-Fixes https://github.com/termux/termux-packages/issues/24651
+Fixes https://github.com/msmt2018/termux-packages/issues/24651
 
 --- a/src/java.base/unix/native/libnio/fs/UnixNativeDispatcher.c
 +++ b/src/java.base/unix/native/libnio/fs/UnixNativeDispatcher.c

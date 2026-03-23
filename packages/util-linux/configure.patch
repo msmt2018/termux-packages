@@ -1,7 +1,7 @@
 col is by default only built when using glibc, but we keep
 it in Termux by patching away the configure check.
 
-See https://github.com/termux/termux-packages/issues/21537
+See https://github.com/msmt2018/termux-packages/issues/21537
 
 --- a/configure
 +++ b/configure

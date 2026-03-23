@@ -1,4 +1,4 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/termux/x11-packages
+TERMUX_PKG_HOMEPAGE=https://github.com.itsaky.androidide/x11-packages
 TERMUX_PKG_DESCRIPTION="Utility to start X11 Termux add-on"
 TERMUX_PKG_LICENSE="GPL-3.0" # same as Termux:X11 add-on app
 TERMUX_PKG_MAINTAINER="@termux"

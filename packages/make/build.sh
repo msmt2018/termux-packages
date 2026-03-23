@@ -22,7 +22,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" --without-guile"
 termux_step_pre_configure() {
 	if [ "$TERMUX_ARCH" = arm ]; then
 		# Fix issue with make on arm hanging at least under cmake:
-		# https://github.com/termux/termux-packages/issues/2983
+		# https://github.com/msmt2018/termux-packages/issues/2983
 		TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" ac_cv_func_pselect=no"
 	fi
 }

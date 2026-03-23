@@ -9,7 +9,7 @@ TERMUX_PKG_SKIP_SRC_EXTRACT=true
 TERMUX_PKG_PLATFORM_INDEPENDENT=true
 
 termux_step_post_get_source() {
-	# Borrowed from termux/termux-packages@840024d1d1446b36cc90ecce2aa0d8fb67368d8a
+	# Borrowed from msmt2018/termux-packages@840024d1d1446b36cc90ecce2aa0d8fb67368d8a
 	# Array of strings of the form "NAME_SUFFIX RPM_SHA256":
 	local _RPMS=()
 	# Example:

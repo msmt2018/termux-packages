@@ -1,5 +1,5 @@
 shm_unlink() and shm_open() implementations from other packages like qt5-qtbase:
-https://github.com/termux/termux-packages/pull/17789
+https://github.com/msmt2018/termux-packages/pull/17789
 
 --- a/src/components/micro/qemudevice.cpp
 +++ b/src/components/micro/qemudevice.cpp

@@ -2,7 +2,7 @@ Makes Termux App on-device pass all tests (most of the time),
 after building SBCL when the run-tests.sh script in the tests
 folder is run on bare metal 64-bit ARM Android.
 
-Fixes https://github.com/termux/termux-packages/issues/24176
+Fixes https://github.com/msmt2018/termux-packages/issues/24176
 
 contains some code from https://bugs.launchpad.net/sbcl/+bug/1956852
 

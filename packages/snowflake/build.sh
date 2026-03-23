@@ -11,7 +11,7 @@ TERMUX_PKG_AUTO_UPDATE=true
 termux_step_make() {
 	termux_setup_golang
 
-	# https://github.com/termux/termux-packages/issues/22236
+	# https://github.com/msmt2018/termux-packages/issues/22236
 	# https://github.com/wlynxg/anet?tab=readme-ov-file#how-to-build-with-go-1230-or-later
 	go build -ldflags=-checklinkname=0 -o snowflake-client $TERMUX_PKG_SRCDIR/client/
 	go build -ldflags=-checklinkname=0 -o snowflake-proxy $TERMUX_PKG_SRCDIR/proxy/

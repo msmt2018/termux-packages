@@ -10,7 +10,7 @@ TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_GIT_BRANCH=master
 TERMUX_PKG_BUILD_IN_SRC=true
 
-# https://github.com/termux/termux-packages/issues/16756
+# https://github.com/msmt2018/termux-packages/issues/16756
 TERMUX_RUST_VERSION=1.68.2
 
 termux_step_post_get_source() {

@@ -41,8 +41,8 @@ termux_step_pre_configure() {
 	local _libgcc="$($CC -print-libgcc-file-name)"
 	LIBS+=" -L$(dirname $_libgcc) -l:$(basename $_libgcc)"
 
-	# https://github.com/termux/termux-packages/issues/18977
-	# https://github.com/termux/termux-packages/issues/18810
+	# https://github.com/msmt2018/termux-packages/issues/18977
+	# https://github.com/msmt2018/termux-packages/issues/18810
 	export LDFLAGS+=" -Wl,--undefined-version"
 }
 
