@@ -1,0 +1,55 @@
+name: Build Ubuntu Rootfs for AndroidIDE
+
+on:
+  workflow_dispatch: # 手動觸發
+  push:
+    branches:
+      - com.itsaky.androidide
+
+jobs:
+  build-rootfs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [arm64, amd64] # 構建手機用的 arm64 和桌面用的 amd64
+        release: [noble, plucky] # 24.04 和 25.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debootstrap qemu-user-static tar xz-utils
+
+      - name: Build Rootfs
+        env:
+          ARCH: ${{ matrix.arch }}
+          RELEASE: ${{ matrix.release }}
+          CUSTOM_PACKAGE: "com.itsaky.androidide"
+        run: |
+          # 1. 創建構建目錄
+          sudo mkdir -p /opt/ubuntu-rootfs
+          
+          # 2. 執行 debootstrap
+          # 使用 --foreign 模式配合 qemu-user-static 進行跨架構構建
+          sudo debootstrap --arch=${ARCH} --variant=minbase ${RELEASE} /opt/ubuntu-rootfs http://ports.ubuntu.com
+
+          # 3. 基礎適配修改 (針對 Termux 環境)
+          # 創建 Termux 特有的路徑，防止掛載時報錯
+          sudo mkdir -p /opt/ubuntu-rootfs/data/data/${CUSTOM_PACKAGE}/files/usr
+          sudo mkdir -p /opt/ubuntu-rootfs/sdcard
+          
+          # 4. 移除不需要的文件以縮減體積
+          sudo rm -rf /opt/ubuntu-rootfs/var/cache/apt/archives/*
+          sudo rm -rf /opt/ubuntu-rootfs/dev/*
+
+          # 5. 打包成 .tar.xz
+          cd /opt/ubuntu-rootfs
+          sudo tar -cJf ${GITHUB_WORKSPACE}/ubuntu-${RELEASE}-${ARCH}-rootfs.tar.xz .
+
+      - name: Upload Rootfs Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-${{ matrix.release }}-${{ matrix.arch }}-rootfs
+          path: ubuntu-${{ matrix.release }}-${{ matrix.arch }}-rootfs.tar.xz

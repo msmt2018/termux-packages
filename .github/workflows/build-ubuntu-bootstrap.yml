@@ -1,0 +1,64 @@
+name: Build Ubuntu Bootstrap for AndroidIDE
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Ubuntu Release (noble or plucky)'
+        required: true
+        default: 'noble'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [aarch64] # 手机主流架构
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Build Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debootstrap qemu-user-static zip tar
+
+      - name: Create Ubuntu Bootstrap
+        env:
+          ARCH: ${{ matrix.arch }}
+          RELEASE: ${{ github.event.inputs.release }}
+          CUSTOM_PKG: "com.itsaky.androidide"
+        run: |
+          # 1. 定义 Termux 内部的根路径
+          PREFIX="/data/data/${CUSTOM_PKG}/files/usr"
+          BUILD_DIR="${GITHUB_WORKSPACE}/ubuntu-bootstrap"
+          TARGET_DIR="${BUILD_DIR}${PREFIX}"
+          
+          sudo mkdir -p "${TARGET_DIR}"
+
+          # 2. 拉取 Ubuntu 最小系统 (minbase)
+          # 注意：ports.ubuntu.com 包含 arm64 架构
+          DEB_ARCH="arm64"
+          [ "${ARCH}" = "x86_64" ] && DEB_ARCH="amd64"
+          
+          sudo debootstrap --arch=${DEB_ARCH} --variant=minbase ${RELEASE} "${TARGET_DIR}" http://ports.ubuntu.com
+
+          # 3. 关键适配：创建符号链接
+          # 让 Ubuntu 内部的 /bin, /lib 指向 Termux 内部路径的对应位置
+          # 这样在 AndroidIDE 内部解压后，路径才能对齐
+          cd "${TARGET_DIR}"
+          sudo ln -s . ./usr  # 模拟 Termux 的层级结构
+          
+          # 4. 注入 DNS 配置，否则启动后无法联网
+          echo "nameserver 8.8.8.8" | sudo tee ./etc/resolv.conf
+
+          # 5. 封装为 Termux 格式的 Zip
+          # 注意：Zip 内部必须包含完整的 /data/data/... 路径层级
+          cd "${BUILD_DIR}"
+          sudo zip -r9 "${GITHUB_WORKSPACE}/bootstrap-ubuntu-${RELEASE}-${ARCH}.zip" data/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-${{ github.event.inputs.release }}-${{ matrix.arch }}-bootstrap
+          path: bootstrap-ubuntu-${{ github.event.inputs.release }}-${{ matrix.arch }}.zip
