@@ -32,33 +32,39 @@ jobs:
           RELEASE: ${{ github.event.inputs.release }}
           CUSTOM_PKG: "com.itsaky.androidide"
         run: |
-          # 1. 定义 Termux 内部的根路径
+          # 1. 顯式定義路徑，避免拼接出錯
           PREFIX="/data/data/${CUSTOM_PKG}/files/usr"
           BUILD_DIR="${GITHUB_WORKSPACE}/ubuntu-bootstrap"
           TARGET_DIR="${BUILD_DIR}${PREFIX}"
           
+          # 2. 確保目錄存在（這是最關鍵的）
           sudo mkdir -p "${TARGET_DIR}"
-
-          # 2. 拉取 Ubuntu 最小系统 (minbase)
-          # 注意：ports.ubuntu.com 包含 arm64 架构
+          
+          # 3. 修正架構映射
           DEB_ARCH="arm64"
           [ "${ARCH}" = "x86_64" ] && DEB_ARCH="amd64"
           
-          sudo debootstrap --arch=${DEB_ARCH} --variant=minbase ${RELEASE} "${TARGET_DIR}" http://ports.ubuntu.com
+          echo "Starting debootstrap to ${TARGET_DIR}..."
 
-          # 3. 关键适配：创建符号链接
-          # 让 Ubuntu 内部的 /bin, /lib 指向 Termux 内部路径的对应位置
-          # 这样在 AndroidIDE 内部解压后，路径才能对齐
-          cd "${TARGET_DIR}"
-          sudo ln -s . ./usr  # 模拟 Termux 的层级结构
+          # 4. 使用完整參數格式，防止路徑解析出錯
+          # 注意：將 TARGET_DIR 放在 RELEASE 之後，鏡像地址之前
+          sudo debootstrap \
+            --arch=${DEB_ARCH} \
+            --variant=minbase \
+            --foreign \
+            ${RELEASE} \
+            "${TARGET_DIR}" \
+            http://ports.ubuntu.com
+
+          # 5. 進入目錄進行適配
+          # 由於使用了 --foreign，需要手動處理一些基礎文件夾
+          sudo mkdir -p "${TARGET_DIR}/sdcard"
+          sudo mkdir -p "${TARGET_DIR}/dev"
+          sudo mkdir -p "${TARGET_DIR}/proc"
           
-          # 4. 注入 DNS 配置，否则启动后无法联网
-          echo "nameserver 8.8.8.8" | sudo tee ./etc/resolv.conf
-
-          # 5. 封装为 Termux 格式的 Zip
-          # 注意：Zip 内部必须包含完整的 /data/data/... 路径层级
+          # 6. 打包
           cd "${BUILD_DIR}"
-          sudo zip -r9 "${GITHUB_WORKSPACE}/bootstrap-ubuntu-${RELEASE}-${ARCH}.zip" data/
+          sudo zip -r9 "${GITHUB_WORKSPACE}/bootstrap-ubuntu-${RELEASE}-${ARCH}.zip" .
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
