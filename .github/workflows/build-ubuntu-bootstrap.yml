@@ -32,37 +32,33 @@ jobs:
           RELEASE: ${{ github.event.inputs.release }}
           CUSTOM_PKG: "com.itsaky.androidide"
         run: |
-          # 1. 顯式定義路徑，避免拼接出錯
           PREFIX="/data/data/${CUSTOM_PKG}/files/usr"
           BUILD_DIR="${GITHUB_WORKSPACE}/ubuntu-bootstrap"
           TARGET_DIR="${BUILD_DIR}${PREFIX}"
-          
-          # 2. 確保目錄存在（這是最關鍵的）
           sudo mkdir -p "${TARGET_DIR}"
-          
-          # 3. 修正架構映射
-          DEB_ARCH="arm64"
-          [ "${ARCH}" = "x86_64" ] && DEB_ARCH="amd64"
-          
-          echo "Starting debootstrap to ${TARGET_DIR}..."
 
-          # 4. 使用完整參數格式，防止路徑解析出錯
-          # 注意：將 TARGET_DIR 放在 RELEASE 之後，鏡像地址之前
+          # 1. 自動選擇正確的鏡像源
+          if [ "${ARCH}" = "x86_64" ]; then
+            DEB_ARCH="amd64"
+            MIRROR="http://archive.ubuntu.com"
+          else
+            DEB_ARCH="arm64"
+            MIRROR="http://ports.ubuntu.com"
+          fi
+
+          echo "Building ${RELEASE} for ${DEB_ARCH} using ${MIRROR}..."
+
+          # 2. 執行 debootstrap
+          # 針對開發版 (Plucky) 建議增加 --no-check-gpg 以防密鑰錯誤
           sudo debootstrap \
             --arch=${DEB_ARCH} \
             --variant=minbase \
-            --foreign \
+            --no-check-gpg \
             ${RELEASE} \
             "${TARGET_DIR}" \
-            http://ports.ubuntu.com
+            ${MIRROR}
 
-          # 5. 進入目錄進行適配
-          # 由於使用了 --foreign，需要手動處理一些基礎文件夾
-          sudo mkdir -p "${TARGET_DIR}/sdcard"
-          sudo mkdir -p "${TARGET_DIR}/dev"
-          sudo mkdir -p "${TARGET_DIR}/proc"
-          
-          # 6. 打包
+          # 3. 打包 (保持之前路徑結構)
           cd "${BUILD_DIR}"
           sudo zip -r9 "${GITHUB_WORKSPACE}/bootstrap-ubuntu-${RELEASE}-${ARCH}.zip" .
 
