@@ -1,6 +1,9 @@
 name: Build Ubuntu Bootstrap for AndroidIDE
 
 on:
+  push:
+    branches:
+      - com.itsaky.androidide 
   workflow_dispatch:
     inputs:
       release:
