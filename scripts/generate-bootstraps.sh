@@ -13,6 +13,8 @@ trap 'rm -rf $BOOTSTRAP_TMPDIR' EXIT
 # By default, bootstrap archives are compatible with Android >=7.0
 # and <10.
 BOOTSTRAP_ANDROID10_COMPATIBLE=false
+TERMUX_LEGACY_APP_PACKAGE_NAME="com.termux"
+TERMUX_LEGACY_PREFIX="/data/data/${TERMUX_LEGACY_APP_PACKAGE_NAME}/files/usr"
 
 # By default, bootstrap archives will be built for all architectures
 # supported by Termux application.
@@ -172,12 +174,19 @@ pull_package() {
 					exit 1
 				fi
 
-				# Extract files.
-				tar xf "$data_archive" -C "$BOOTSTRAP_ROOTFS"
+					# Extract files.
+					tar xf "$data_archive" -C "$BOOTSTRAP_ROOTFS"
+					migrate_legacy_prefix_tree
 
-				if ! ${BOOTSTRAP_ANDROID10_COMPATIBLE}; then
-					# Register extracted files.
-					tar tf "$data_archive" | sed -E -e 's@^\./@/@' -e 's@^/$@/.@' -e 's@^([^./])@/\1@' > "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/dpkg/info/${package_name}.list"
+					if ! ${BOOTSTRAP_ANDROID10_COMPATIBLE}; then
+						# Register extracted files.
+						tar tf "$data_archive" \
+							| sed -E \
+								-e 's@^\./@/@' \
+								-e 's@^/$@/.@' \
+								-e 's@^([^./])@/\1@' \
+								-e "s@^/${TERMUX_LEGACY_PREFIX#/}@/${TERMUX_PREFIX#/}@g" \
+							> "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/dpkg/info/${package_name}.list"
 
 					# Generate checksums (md5).
 					tar xf "$data_archive"
@@ -222,10 +231,13 @@ pull_package() {
 			(cd "$package_tmpdir"
 				local package_desc="${package_name}-$(read_db_packages_pac VERSION)"
 				mkdir -p "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/pacman/local/${package_desc}"
-				{
-					echo "%FILES%"
-					tar xvf package.pkg.tar.xz -C "$BOOTSTRAP_ROOTFS" .INSTALL .MTREE data 2> /dev/null | grep '^data/' || true
-				} >> "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/pacman/local/${package_desc}/files"
+					{
+						echo "%FILES%"
+						tar xvf package.pkg.tar.xz -C "$BOOTSTRAP_ROOTFS" .INSTALL .MTREE data 2> /dev/null \
+							| grep '^data/' \
+							| sed -E "s@^${TERMUX_LEGACY_PREFIX#/}/@${TERMUX_PREFIX#/}/@g" || true
+					} >> "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/pacman/local/${package_desc}/files"
+					migrate_legacy_prefix_tree
 				mv "${BOOTSTRAP_ROOTFS}/.MTREE" "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/pacman/local/${package_desc}/mtree"
 				if [ -f "${BOOTSTRAP_ROOTFS}/.INSTALL" ]; then
 					mv "${BOOTSTRAP_ROOTFS}/.INSTALL" "${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}/var/lib/pacman/local/${package_desc}/install"
@@ -331,6 +343,24 @@ show_usage() {
 	echo "Prefix: ${TERMUX_PREFIX}"
         echo "Package manager: ${TERMUX_PACKAGE_MANAGER}"
 	echo
+}
+
+migrate_legacy_prefix_tree() {
+	# Most published bootstrap packages are still built for com.termux.
+	# If we are generating for another package namespace, move extracted
+	# legacy prefix files so the final bootstrap contains full usr payload.
+	if [ "${TERMUX_PREFIX}" = "${TERMUX_LEGACY_PREFIX}" ]; then
+		return
+	fi
+
+	local legacy_prefix_path="${BOOTSTRAP_ROOTFS}/${TERMUX_LEGACY_PREFIX}"
+	local target_prefix_path="${BOOTSTRAP_ROOTFS}/${TERMUX_PREFIX}"
+
+	if [ -d "${legacy_prefix_path}" ]; then
+		mkdir -p "${target_prefix_path}"
+		cp -a "${legacy_prefix_path}/." "${target_prefix_path}/"
+		rm -rf "${legacy_prefix_path}"
+	fi
 }
 
 while (($# > 0)); do
