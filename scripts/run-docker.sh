@@ -2,7 +2,7 @@
 set -euo pipefail
 
 TERMUX_SCRIPTDIR=$(cd "$(realpath "$(dirname "$0")")"; cd ..; pwd)
-: ${TERMUX_BUILDER_IMAGE_NAME:=ghcr.io/termux/package-builder}
+: ${TERMUX_BUILDER_IMAGE_NAME:=ghcr.io/msmt2018/package-builder}
 : ${CONTAINER_NAME:=termux-package-builder}
 : ${TERMUX_DOCKER_RUN_EXTRA_ARGS:=}
 : ${TERMUX_DOCKER_EXEC_EXTRA_ARGS:=}

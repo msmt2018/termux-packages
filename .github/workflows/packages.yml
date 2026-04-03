@@ -241,7 +241,7 @@ jobs:
     - name: Build docker image
       if: ${{ steps.build-info.outputs.needs-docker-build == 'true' }}
       run: |
-        docker build -t ghcr.io/termux/package-builder:latest scripts/
+        docker build -t ghcr.io/msmt2018/package-builder:latest scripts/
         docker buildx prune -af
 
     - name: Load Docker image
@@ -347,7 +347,7 @@ jobs:
   upload-test:
     permissions:
       contents: read
-    if: github.repository == 'termux/termux-packages' && github.ref != 'refs/heads/master'
+    if: (github.repository == 'termux/termux-packages' || github.repository == 'msmt2018/termux-packages') && github.ref != 'refs/heads/master'
     needs: build
     runs-on: ubuntu-slim
     steps:
@@ -414,7 +414,7 @@ jobs:
     concurrency: ${{ github.workflow }}
     permissions:
       contents: read
-    if: github.repository == 'termux/termux-packages' && github.ref == 'refs/heads/master'
+    if: (github.repository == 'termux/termux-packages' || github.repository == 'msmt2018/termux-packages') && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-slim
     steps:
