@@ -23,7 +23,7 @@ jobs:
           - arm
           - i686
           - x86_64
-    if: github.repository == 'termux/termux-packages'
+    if: contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository)
     steps:
       - name: Git clone
         uses: actions/checkout@v6
