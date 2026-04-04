@@ -41,15 +41,15 @@ echo '你的token' | docker login -u androidzeros --password-stdin
 ```bash
 cd /workspace/termux-packages
 
-docker build -t androidzeros/package-builder:latest scripts/
-docker push androidzeros/package-builder:latest
+docker build -t androidzeros/termux-package-builder:latest scripts/
+docker push androidzeros/termux-package-builder:latest
 ```
 
 可选（如果你需要 cgct 镜像）：
 
 ```bash
-docker build -t androidzeros/package-builder-cgct:latest -f scripts/Dockerfile.cgct scripts/
-docker push androidzeros/package-builder-cgct:latest
+docker build -t androidzeros/termux-package-builder-cgct:latest -f scripts/Dockerfile.cgct scripts/
+docker push androidzeros/termux-package-builder-cgct:latest
 ```
 
 ---
@@ -59,7 +59,7 @@ docker push androidzeros/package-builder-cgct:latest
 临时方式（推荐先这样验证）：
 
 ```bash
-export TERMUX_BUILDER_IMAGE_NAME=androidzeros/package-builder:latest
+export TERMUX_BUILDER_IMAGE_NAME=androidzeros/termux-package-builder:latest
 ./scripts/run-docker.sh true
 ```
 
@@ -94,8 +94,8 @@ export TERMUX_BUILDER_IMAGE_NAME=androidzeros/package-builder:latest
 
 将 GitHub Actions 中涉及的镜像命名从官方/默认改为你的命名空间：
 
-- `androidzeros/package-builder:latest`
-- `ghcr.io/androidzeros/package-builder:latest`（若也推 GHCR）
+- `androidzeros/termux-package-builder:latest`
+- `ghcr.io/androidzeros/termux-package-builder:latest`（若也推 GHCR）
 
 并在 GitHub 仓库 Secret 中配置：
 
@@ -133,7 +133,7 @@ export TERMUX_BUILDER_IMAGE_NAME=androidzeros/package-builder:latest
 set -euo pipefail
 
 export DOCKER_USER=androidzeros
-export IMAGE=${DOCKER_USER}/package-builder:latest
+export IMAGE=${DOCKER_USER}/termux-package-builder:latest
 export TERMUX_BUILDER_IMAGE_NAME=${IMAGE}
 
 # 1) 登录
