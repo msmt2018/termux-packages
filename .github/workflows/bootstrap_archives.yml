@@ -23,12 +23,16 @@ jobs:
           - arm
           - i686
           - x86_64
-    if: (github.repository == 'termux/termux-packages' || github.repository == 'msmt2018/termux-packages')
+    if: contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository)
     steps:
       - name: Git clone
         uses: actions/checkout@v6
-      - name: Create bootstrap archive
-        run: ./scripts/generate-bootstraps.sh --architectures ${{ matrix.arch }}
+      - name: Build custom docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/package-builder:latest scripts/
+      - name: Create bootstrap archive from locally built packages
+        run: |
+          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest \
+            ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --architectures ${{ matrix.arch }} -f
       - name: Store artifacts
         uses: actions/upload-artifact@v6
         with:

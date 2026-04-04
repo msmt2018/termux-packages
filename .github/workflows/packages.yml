@@ -52,6 +52,7 @@ jobs:
       id: build-info
       env:
         MANUAL_INPUT_PACKAGES: ${{ github.event.inputs.packages }}
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       run: |
         # We are intentionally not using .commits[0].id and .commits[-1].id as github seems to
         # only send 20 commits in the payload for github action runs instead of the 2048 documented
@@ -63,15 +64,15 @@ jobs:
         HEAD_COMMIT="${{ github.event.after }}"
         if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
           BASE_REF="${{ github.event.pull_request.base.ref }}"
-          git fetch origin "${BASE_REF:-master}" 2>/dev/null
-          BASE_COMMIT="$(git merge-base "origin/${BASE_REF:-master}" "HEAD")"
+          git fetch origin "${BASE_REF:-$DEFAULT_BRANCH}" 2>/dev/null
+          BASE_COMMIT="$(git merge-base "origin/${BASE_REF:-$DEFAULT_BRANCH}" "HEAD")"
           if [ -z "${{ github.event.pull_request.base.sha }}" ]; then
             if ! git log "$OLD_COMMIT" > /dev/null; then
-              if [ "$(git branch --show-current)" = "master" ]; then
-                echo "Force push detected on master branch. Unable to proceed."
+              if [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ]; then
+                echo "Force push detected on ${DEFAULT_BRANCH} branch. Unable to proceed."
                 exit 1
               else
-                OLD_COMMIT=$(git fetch origin master >&2; git merge-base origin/master $HEAD_COMMIT)
+                OLD_COMMIT=$(git fetch origin "$DEFAULT_BRANCH" >&2; git merge-base "origin/$DEFAULT_BRANCH" "$HEAD_COMMIT")
               fi
             fi
             echo "Processing commit range: ${OLD_COMMIT}..${HEAD_COMMIT}"
@@ -85,7 +86,7 @@ jobs:
         mkdir -p ./artifacts ./debs
         touch ./debs/.placeholder
 
-        if [[ "${{ github.event_name }}" == "pull_request" && -n "$(git rev-list --merges "$(git fetch origin master >&2; git merge-base origin/master $HEAD_COMMIT)..$HEAD_COMMIT")" ]]; then
+        if [[ "${{ github.event_name }}" == "pull_request" && -n "$(git rev-list --merges "$(git fetch origin "$DEFAULT_BRANCH" >&2; git merge-base "origin/$DEFAULT_BRANCH" "$HEAD_COMMIT")..$HEAD_COMMIT")" ]]; then
           # Github does not allow multiline errors, but it will interpret the escape sequence %0A as a line break.
           echo "::error ::Merge commits are not allowed in pull requests.%0AYou should rebase your commits or squash them.%0Ahttps://docs.github.com/en/get-started/using-git/using-git-rebase-on-the-command-line"
           exit 1
@@ -141,6 +142,7 @@ jobs:
           # Ensure MANUAL_INPUT_PACKAGES is newline free, and put it
           # into an array
           read -a PACKAGES <<< "${MANUAL_INPUT_PACKAGES//$'\n'/ }"
+          found_any=false
           for pkg in "${PACKAGES[@]}"; do
             repo_paths=$(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json)
             found=false
@@ -148,6 +150,7 @@ jobs:
               repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
               if [ -d "${repo_path}/${pkg}" ]; then
                 found=true
+                found_any=true
                 echo "$pkg" >> ./built_${repo}_packages.txt
                 for subpkg in $(find "${repo_path}/${pkg}/" -maxdepth 1 -type f -name \*.subpackage.sh | sort); do
                   echo "$(basename "${subpkg%%.subpackage.sh}")" >> ./built_${repo}_subpackages.txt
@@ -155,10 +158,13 @@ jobs:
               fi
             done
             if [ "$found" != true ]; then
-              echo "Package '${pkg}' not found in any of the repo"
-              exit 1
+              echo "::warning::Package '${pkg}' not found in any of the repo. Skipping."
             fi
           done
+          if [ "$found_any" != true ]; then
+            echo "No valid packages found in manual input."
+            exit 1
+          fi
         fi
 
         for repo in $(jq --raw-output 'del(.pkg_format) | .[].name' repo.json); do
@@ -241,13 +247,13 @@ jobs:
     - name: Build docker image
       if: ${{ steps.build-info.outputs.needs-docker-build == 'true' }}
       run: |
-        docker build -t ghcr.io/msmt2018/package-builder:latest scripts/
+        docker build -t ghcr.io/${{ github.repository_owner }}/package-builder:latest scripts/
         docker buildx prune -af
 
     - name: Load Docker image
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
-        ./scripts/run-docker.sh true
+        TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest ./scripts/run-docker.sh true
 
     - name: Free additional disk space (if needed)
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
@@ -268,7 +274,7 @@ jobs:
         echo "packages: ${packages[*]}"
 
         if [[ "${#packages[@]}" -gt 0 ]]; then
-          ./scripts/run-docker.sh -d ./build-package.sh -I -C -a "${{ matrix.target_arch }}" "${packages[@]}"
+          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest ./scripts/run-docker.sh -d ./build-package.sh -I -C -a "${{ matrix.target_arch }}" "${packages[@]}"
         fi
 
     - name: Generate build artifacts
@@ -347,7 +353,7 @@ jobs:
   upload-test:
     permissions:
       contents: read
-    if: (github.repository == 'termux/termux-packages' || github.repository == 'msmt2018/termux-packages') && github.ref != 'refs/heads/master'
+    if: contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository) && github.ref != format('refs/heads/{0}', github.event.repository.default_branch)
     needs: build
     runs-on: ubuntu-slim
     steps:
@@ -414,7 +420,7 @@ jobs:
     concurrency: ${{ github.workflow }}
     permissions:
       contents: read
-    if: (github.repository == 'termux/termux-packages' || github.repository == 'msmt2018/termux-packages') && github.ref == 'refs/heads/master'
+    if: contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     needs: build
     runs-on: ubuntu-slim
     steps:
