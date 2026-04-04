@@ -155,3 +155,71 @@ echo "Done"
 ---
 
 如果你愿意，我下一步可以按你的目标架构（`aarch64/arm/i686/x86_64`）给你一份**可直接用在 GitHub Actions 的完整 workflow 文件**（包含自动 build 镜像、push、再构建 bootstrap、最后上传 artifact）。
+
+---
+
+## 9. 你这四个仓库名的全流程（已适配）
+
+你已经创建的仓库：
+
+- `androidzeros/termux-docker`
+- `androidzeros/terminal-packaging`
+- `androidzeros/termux-package-builder`
+- `androidzeros/termux-package-builder-cgct`
+
+仓库里新增了一键脚本：
+
+```bash
+scripts/docker/androidzeros-full-pipeline.sh
+```
+
+### 9.1 本地一键执行（登录 + 构建 + push）
+
+```bash
+export DOCKER_TOKEN='你的新token'
+./scripts/docker/androidzeros-full-pipeline.sh \
+  --namespace androidzeros \
+  --tag latest \
+  --login --build --push --verbose
+```
+
+### 9.2 拉取四个镜像（验证已上传）
+
+```bash
+./scripts/docker/androidzeros-full-pipeline.sh \
+  --namespace androidzeros \
+  --tag latest \
+  --pull --verbose
+```
+
+### 9.3 用你自己的 builder 镜像编译 bootstrap
+
+```bash
+export TERMUX_BUILDER_IMAGE_NAME=androidzeros/termux-package-builder:latest
+./scripts/run-docker.sh true
+./scripts/run-docker.sh ./scripts/build-bootstraps.sh --architectures aarch64 -f
+```
+
+---
+
+## 10. GitHub Actions 自动化（已给你 workflow）
+
+新增 workflow：
+
+```text
+.github/workflows/androidzeros_full_pipeline.yml
+```
+
+功能：
+
+1. 登录 Docker Hub（使用 `DOCKER_USERNAME` / `DOCKER_TOKEN` secrets）
+2. 构建并 push 你四个仓库的镜像
+3. 可选自动构建 bootstrap
+4. 上传 bootstrap 产物为 artifact
+
+你只需要在 GitHub 仓库里配置：
+
+- `DOCKER_USERNAME=androidzeros`
+- `DOCKER_TOKEN=<新PAT>`
+
+然后在 Actions 页面手动触发 `Androidzeros Full Docker Pipeline` 即可。
