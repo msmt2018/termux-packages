@@ -247,13 +247,13 @@ jobs:
     - name: Build docker image
       if: ${{ steps.build-info.outputs.needs-docker-build == 'true' }}
       run: |
-        docker build -t ghcr.io/${{ github.repository_owner }}/package-builder:latest scripts/
+        docker build -t ghcr.io/${{ github.repository_owner }}/termux-package-builder:latest scripts/
         docker buildx prune -af
 
     - name: Load Docker image
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
       run: |
-        TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest ./scripts/run-docker.sh true
+        TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/termux-package-builder:latest ./scripts/run-docker.sh true
 
     - name: Free additional disk space (if needed)
       if: ${{ steps.build-info.outputs.free-space == 'true' && steps.build-info.outputs.skip-building != 'true' }}
@@ -274,7 +274,7 @@ jobs:
         echo "packages: ${packages[*]}"
 
         if [[ "${#packages[@]}" -gt 0 ]]; then
-          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest ./scripts/run-docker.sh -d ./build-package.sh -I -C -a "${{ matrix.target_arch }}" "${packages[@]}"
+          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/termux-package-builder:latest ./scripts/run-docker.sh -d ./build-package.sh -I -C -a "${{ matrix.target_arch }}" "${packages[@]}"
         fi
 
     - name: Generate build artifacts

@@ -3,24 +3,24 @@ name: Docker image
 on:
   push:
     branches:
-    - master
+      - master
     paths:
-    - 'scripts/Dockerfile'
-    - 'scripts/properties.sh'
-    - 'scripts/setup-android-sdk.sh'
-    - 'scripts/setup-ubuntu.sh'
-    - 'scripts/setup-cgct.sh'
-    - '.github/workflows/docker_image.yml'
+      - 'scripts/Dockerfile'
+      - 'scripts/properties.sh'
+      - 'scripts/setup-android-sdk.sh'
+      - 'scripts/setup-ubuntu.sh'
+      - 'scripts/setup-cgct.sh'
+      - '.github/workflows/docker_image.yml'
   pull_request:
     paths:
-    - 'scripts/Dockerfile'
-    - 'scripts/properties.sh'
-    - 'scripts/setup-android-sdk.sh'
-    - 'scripts/setup-ubuntu.sh'
-    - 'scripts/setup-cgct.sh'
-    - '.github/workflows/docker_image.yml'
+      - 'scripts/Dockerfile'
+      - 'scripts/properties.sh'
+      - 'scripts/setup-android-sdk.sh'
+      - 'scripts/setup-ubuntu.sh'
+      - 'scripts/setup-cgct.sh'
+      - '.github/workflows/docker_image.yml'
   schedule:
-    - cron:  '0 2 * * 0'
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -29,86 +29,96 @@ jobs:
     permissions:
       contents: read
       packages: write
-    if: contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository)
+    env:
+      IMAGE_BASE: termux-package-builder
+      IMAGE_CGCT: termux-package-builder-cgct
+      IMAGE_ALIASES: termux-docker terminal-packaging
     steps:
-    - name: Clone repository
-      uses: actions/checkout@v6
+      - name: Clone repository
+        uses: actions/checkout@v6
 
-    # Skip building the Docker image on scheduled runs if the last successful
-    # image build (the one tagged "latest") is less than IMAGE_MIN_INTERVAL_DAYS old.
-    - name: Optionally skip building image
-      if: github.event_name == 'schedule'
-      id: skip-build
-      env:
-        IMAGE_MIN_INTERVAL_DAYS: 30
-      run: |
-        LAST_TIMESTAMP=$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-         -H "Accept: application/vnd.github+json" \
-         "https://api.github.com/users/${{ github.repository_owner }}/packages/container/package-builder/versions" |
-          jq --raw-output 'map(select(.metadata.container.tags | contains(["latest"])))[0].created_at')
-        LAST_UNIX_TIME=$(date -d "$LAST_TIMESTAMP" +%s)
-        CURRENT_UNIX_TIME=$(date +%s)
-        if (( "$CURRENT_UNIX_TIME" - "$LAST_UNIX_TIME" < $IMAGE_MIN_INTERVAL_DAYS*24*60*60 )); then
-          echo "Skipping building Docker image: last successful build was done on $LAST_TIMESTAMP (< $IMAGE_MIN_INTERVAL_DAYS days)"
-          echo "skip-build=true" >> "$GITHUB_OUTPUT"
-        fi
+      - name: Optionally skip building image
+        if: github.event_name == 'schedule'
+        id: skip-build
+        env:
+          IMAGE_MIN_INTERVAL_DAYS: 30
+        run: |
+          LAST_TIMESTAMP=$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+           -H "Accept: application/vnd.github+json" \
+           "https://api.github.com/users/${{ github.repository_owner }}/packages/container/${IMAGE_BASE}/versions" |
+            jq --raw-output 'map(select(.metadata.container.tags | contains(["latest"])))[0].created_at')
 
-    - name: Build
-      if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
-      run: |
-        docker build --tag "${{ github.repository_owner }}/package-builder:latest" scripts/
-        docker tag "${{ github.repository_owner }}/package-builder:latest" "ghcr.io/${{ github.repository_owner }}/package-builder:latest"
-    - name: Build (CGCT)
-      if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
-      run: |
-        docker build --tag "${{ github.repository_owner }}/package-builder-cgct:latest" --file scripts/Dockerfile.cgct scripts/
-        docker tag "${{ github.repository_owner }}/package-builder-cgct:latest" "ghcr.io/${{ github.repository_owner }}/package-builder-cgct:latest"
-    - name: Login to GHCR
-      if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository) && steps.skip-build.outputs.skip-build != 'true'
+          if [[ -z "$LAST_TIMESTAMP" || "$LAST_TIMESTAMP" == "null" ]]; then
+            echo "No prior latest image found, continuing with build"
+            exit 0
+          fi
 
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Login to Docker Hub
-      if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && github.repository == 'termux/termux-packages' && steps.skip-build.outputs.skip-build != 'true'
-      uses: docker/login-action@v3
-      with:
-        username: msmt2018
-        password: ${{ secrets.DOCKER_TOKEN }}
-    - name: Push
-      if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && contains(fromJSON('["termux/termux-packages","msmt2018/termux-packages"]'), github.repository) && steps.skip-build.outputs.skip-build != 'true'
-      run: |
-        # ghcr.io seem to be unstable sometimes. It may suddenly drop connection
-        # during docker push when some layers are already uploaded. The workaround
-        # is to retry again 1 or 2 more times.
-        for image in package-builder package-builder-cgct; do
-          for t in 1 2 3; do
-            if docker push "ghcr.io/${{ github.repository_owner }}/${image}:latest"; then
-              break
-            else
-              if [ "$t" = "3" ]; then
-                echo "Giving up after 3 attempts"
-                exit 1
-              fi
-              sleep 20
-            fi
+          LAST_UNIX_TIME=$(date -d "$LAST_TIMESTAMP" +%s)
+          CURRENT_UNIX_TIME=$(date +%s)
+          if (( CURRENT_UNIX_TIME - LAST_UNIX_TIME < IMAGE_MIN_INTERVAL_DAYS*24*60*60 )); then
+            echo "Skipping building Docker image: last successful build was done on $LAST_TIMESTAMP (< $IMAGE_MIN_INTERVAL_DAYS days)"
+            echo "skip-build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build base image
+        if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
+        run: |
+          docker build --tag "${{ github.repository_owner }}/${IMAGE_BASE}:latest" scripts/
+          docker tag "${{ github.repository_owner }}/${IMAGE_BASE}:latest" "ghcr.io/${{ github.repository_owner }}/${IMAGE_BASE}:latest"
+
+      - name: Build CGCT image
+        if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
+        run: |
+          docker build --tag "${{ github.repository_owner }}/${IMAGE_CGCT}:latest" --file scripts/Dockerfile.cgct scripts/
+          docker tag "${{ github.repository_owner }}/${IMAGE_CGCT}:latest" "ghcr.io/${{ github.repository_owner }}/${IMAGE_CGCT}:latest"
+
+      - name: Build alias tags from base image
+        if: ${{ steps.skip-build.outputs.skip-build != 'true' }}
+        run: |
+          for image in $IMAGE_ALIASES; do
+            docker tag "${{ github.repository_owner }}/${IMAGE_BASE}:latest" "${{ github.repository_owner }}/${image}:latest"
           done
-        done
 
-        if [[ "${{ github.repository }}" == "termux/termux-packages" ]]; then
-          for image in package-builder package-builder-cgct; do
+      - name: Login to GHCR
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && steps.skip-build.outputs.skip-build != 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && steps.skip-build.outputs.skip-build != 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Push
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.event_name != 'pull_request' && steps.skip-build.outputs.skip-build != 'true'
+        run: |
+          for image in "$IMAGE_BASE" "$IMAGE_CGCT"; do
             for t in 1 2 3; do
-              if docker push "termux/${image}:latest"; then
+              if docker push "ghcr.io/${{ github.repository_owner }}/${image}:latest"; then
                 break
+              elif [ "$t" = "3" ]; then
+                echo "Giving up after 3 attempts for ghcr ${image}"
+                exit 1
               else
-                if [ "$t" = "3" ]; then
-                  echo "Giving up after 3 attempts"
-                  exit 1
-                fi
                 sleep 20
               fi
             done
           done
-        fi
+
+          for image in "$IMAGE_BASE" "$IMAGE_CGCT" $IMAGE_ALIASES; do
+            for t in 1 2 3; do
+              if docker push "${{ github.repository_owner }}/${image}:latest"; then
+                break
+              elif [ "$t" = "3" ]; then
+                echo "Giving up after 3 attempts for dockerhub ${image}"
+                exit 1
+              else
+                sleep 20
+              fi
+            done
+          done

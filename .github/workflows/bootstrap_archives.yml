@@ -28,10 +28,10 @@ jobs:
       - name: Git clone
         uses: actions/checkout@v6
       - name: Build custom docker image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/package-builder:latest scripts/
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/termux-package-builder:latest scripts/
       - name: Create bootstrap archive from locally built packages
         run: |
-          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/package-builder:latest \
+          TERMUX_BUILDER_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/termux-package-builder:latest \
             ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --architectures ${{ matrix.arch }} -f
       - name: Store artifacts
         uses: actions/upload-artifact@v6
