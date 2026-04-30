@@ -21,6 +21,8 @@ TERMUX_PKG_DEPENDS="bzip2, coreutils, curl, dash, diffutils, findutils, gawk, gr
 # Optional packages that are distributed as part of bootstrap archives.
 TERMUX_PKG_RECOMMENDS="ed, dos2unix, inetutils, net-tools, patch, unzip"
 
+find . -type f -print0 | xargs -0 sed -i "s/com.termux/$TERMUX_APP_PACKAGE/g"
+
 termux_step_pre_configure() {
 	autoreconf -vfi
 }
